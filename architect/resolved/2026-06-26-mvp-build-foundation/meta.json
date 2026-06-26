@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-mvp-build-foundation",
   "title": "MVP Build Foundation",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T03:55:14.4215697-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T04:27:52.9797308-04:00",
+  "resolvedAt": "2026-06-26T04:27:52.9797308-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "updatedAt": "2026-06-26T04:27:52.9797308-04:00",
   "tags": [
     "mvp",
     "build",
@@ -30,6 +30,16 @@
       "at": "2026-06-26T03:55:14.4215697-04:00",
       "type": "CREATED",
       "note": "Created as the first MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T04:27:52.9797308-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated to establish the root Maven build foundation."
+    },
+    {
+      "at": "2026-06-26T04:27:52.9797308-04:00",
+      "type": "RESOLVED",
+      "note": "Root aggregator POM converted to a Spring-free parent contract and verified with Maven."
     }
   ]
 }

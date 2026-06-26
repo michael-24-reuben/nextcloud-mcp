@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-mvp-security-policy-baseline",
   "title": "MVP Security Policy Baseline",
-  "status": "pending",
+  "status": "blocked",
   "createdAt": "2026-06-26T03:55:14.4215697-04:00",
-  "activatedAt": null,
+  "activatedAt": "2026-06-26T04:29:03.4639561-04:00",
   "resolvedAt": null,
   "archivedAt": null,
-  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "updatedAt": "2026-06-26T04:29:03.4639561-04:00",
   "tags": [
     "mvp",
     "security",
@@ -32,6 +32,16 @@
       "at": "2026-06-26T03:55:14.4215697-04:00",
       "type": "CREATED",
       "note": "Created as the third MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T04:29:03.4639561-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after the build foundation was resolved."
+    },
+    {
+      "at": "2026-06-26T04:29:03.4639561-04:00",
+      "type": "BLOCKED",
+      "note": "Implementation requires the security module directory to be created or approved."
     }
   ]
 }
