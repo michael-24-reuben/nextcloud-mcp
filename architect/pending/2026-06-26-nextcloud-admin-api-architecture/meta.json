@@ -1,0 +1,39 @@
+{
+  "id": "2026-06-26-nextcloud-admin-api-architecture",
+  "title": "Nextcloud Admin API Architecture",
+  "status": "pending",
+  "createdAt": "2026-06-26T15:30:00-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "tags": [
+    "admin",
+    "api",
+    "architecture",
+    "provisioning",
+    "post-mvp"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-admin-auth-client-foundation",
+    "2026-06-26-admin-users-provisioning",
+    "2026-06-26-admin-groups-subadmins",
+    "2026-06-26-admin-apps-provisioning",
+    "2026-06-26-admin-share-boundary",
+    "2026-06-26-admin-occ-bridge",
+    "2026-06-26-admin-tools-policy-surface"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "blueprint",
+    "summary": "Created from blueprint/nextcloud-admin-api-model.md after confirming the admin module is nextcloud-mcp-admin and admin routing must not conflict with the normal client API."
+  },
+  "events": [
+    {
+      "at": "2026-06-26T15:30:00-04:00",
+      "type": "CREATED",
+      "note": "Created parent admin API architecture record and linked focused child architects."
+    }
+  ]
+}
