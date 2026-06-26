@@ -8,13 +8,14 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.mcp.nextcloud.http.HttpClientAdapter;
 import org.mcp.nextcloud.http.HttpResponseSpec;
+import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 
 public final class NextcloudSharesClient extends AbstractNextcloudClient {
     private static final String SHARES_ENDPOINT = "/ocs/v2.php/apps/files_sharing/api/v1/shares";
 
     private final OcsParser ocsParser;
 
-    NextcloudSharesClient(HttpClientAdapter httpClient, NextcloudRequestFactory requests, OcsParser ocsParser) {
+    NextcloudSharesClient(HttpClientAdapter httpClient, NextcloudHttpRequestFactory requests, OcsParser ocsParser) {
         super(httpClient, requests);
         this.ocsParser = ocsParser;
     }
@@ -48,7 +49,7 @@ public final class NextcloudSharesClient extends AbstractNextcloudClient {
     }
 
     public void deleteShare(String shareId) {
-        sendExpecting(requests.deleteOcs(SHARES_ENDPOINT + "/" + NextcloudRequestFactory.encodePathSegment(shareId)), 200, 204);
+        sendExpecting(requests.deleteOcs(SHARES_ENDPOINT + "/" + NextcloudHttpRequestFactory.encodePathSegment(shareId)), 200, 204);
     }
 
     private static List<ShareInfo> sharesFrom(JsonNode data) {

@@ -2,6 +2,7 @@ package org.mcp.nextcloud.client;
 
 import org.mcp.nextcloud.core.util.Preconditions;
 import org.mcp.nextcloud.http.HttpClientAdapter;
+import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 
 public final class NextcloudClient {
     private final NextcloudUsersClient users;
@@ -11,8 +12,11 @@ public final class NextcloudClient {
 
     public NextcloudClient(HttpClientAdapter httpClient, NextcloudCredentials credentials) {
         HttpClientAdapter adapter = Preconditions.requireNonNull(httpClient, "http client");
-        NextcloudRequestFactory requests = new NextcloudRequestFactory(
-                Preconditions.requireNonNull(credentials, "credentials"));
+        NextcloudCredentials nextcloudCredentials = Preconditions.requireNonNull(credentials, "credentials");
+        NextcloudHttpRequestFactory requests = new NextcloudHttpRequestFactory(
+                nextcloudCredentials.baseUri(),
+                nextcloudCredentials.username(),
+                nextcloudCredentials.appPassword());
         OcsParser ocsParser = new OcsParser();
         WebDavParser webDavParser = new WebDavParser();
         this.users = new NextcloudUsersClient(adapter, requests, ocsParser);

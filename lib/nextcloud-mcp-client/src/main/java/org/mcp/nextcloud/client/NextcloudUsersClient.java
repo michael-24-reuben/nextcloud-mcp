@@ -3,6 +3,7 @@ package org.mcp.nextcloud.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.mcp.nextcloud.http.HttpClientAdapter;
 import org.mcp.nextcloud.http.HttpResponseSpec;
+import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 
 public final class NextcloudUsersClient extends AbstractNextcloudClient {
     private static final String CURRENT_USER_ENDPOINT = "/ocs/v1.php/cloud/user";
@@ -10,7 +11,7 @@ public final class NextcloudUsersClient extends AbstractNextcloudClient {
 
     private final OcsParser ocsParser;
 
-    NextcloudUsersClient(HttpClientAdapter httpClient, NextcloudRequestFactory requests, OcsParser ocsParser) {
+    NextcloudUsersClient(HttpClientAdapter httpClient, NextcloudHttpRequestFactory requests, OcsParser ocsParser) {
         super(httpClient, requests);
         this.ocsParser = ocsParser;
     }

@@ -6,14 +6,15 @@ import java.util.Arrays;
 import org.mcp.nextcloud.core.error.NextcloudApiException;
 import org.mcp.nextcloud.core.util.Preconditions;
 import org.mcp.nextcloud.http.HttpClientAdapter;
+import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 import org.mcp.nextcloud.http.HttpRequestSpec;
 import org.mcp.nextcloud.http.HttpResponseSpec;
 
 abstract class AbstractNextcloudClient {
     protected final HttpClientAdapter httpClient;
-    protected final NextcloudRequestFactory requests;
+    protected final NextcloudHttpRequestFactory requests;
 
-    protected AbstractNextcloudClient(HttpClientAdapter httpClient, NextcloudRequestFactory requests) {
+    protected AbstractNextcloudClient(HttpClientAdapter httpClient, NextcloudHttpRequestFactory requests) {
         this.httpClient = Preconditions.requireNonNull(httpClient, "http client");
         this.requests = Preconditions.requireNonNull(requests, "request factory");
     }

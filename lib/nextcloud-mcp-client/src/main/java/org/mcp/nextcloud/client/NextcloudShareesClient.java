@@ -9,13 +9,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.mcp.nextcloud.core.util.Preconditions;
 import org.mcp.nextcloud.http.HttpClientAdapter;
 import org.mcp.nextcloud.http.HttpResponseSpec;
+import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 
 public final class NextcloudShareesClient extends AbstractNextcloudClient {
     private static final String SHAREES_ENDPOINT = "/ocs/v2.php/apps/files_sharing/api/v1/sharees";
 
     private final OcsParser ocsParser;
 
-    NextcloudShareesClient(HttpClientAdapter httpClient, NextcloudRequestFactory requests, OcsParser ocsParser) {
+    NextcloudShareesClient(HttpClientAdapter httpClient, NextcloudHttpRequestFactory requests, OcsParser ocsParser) {
         super(httpClient, requests);
         this.ocsParser = ocsParser;
     }

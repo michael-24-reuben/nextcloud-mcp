@@ -8,6 +8,7 @@ import org.mcp.nextcloud.core.util.Preconditions;
 import org.mcp.nextcloud.http.HttpClientAdapter;
 import org.mcp.nextcloud.http.HttpMethod;
 import org.mcp.nextcloud.http.HttpResponseSpec;
+import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 
 public final class NextcloudFilesClient extends AbstractNextcloudClient {
     private static final byte[] PROPFIND_BODY = """
@@ -29,7 +30,7 @@ public final class NextcloudFilesClient extends AbstractNextcloudClient {
 
     private final WebDavParser parser;
 
-    NextcloudFilesClient(HttpClientAdapter httpClient, NextcloudRequestFactory requests, WebDavParser parser) {
+    NextcloudFilesClient(HttpClientAdapter httpClient, NextcloudHttpRequestFactory requests, WebDavParser parser) {
         super(httpClient, requests);
         this.parser = parser;
     }
