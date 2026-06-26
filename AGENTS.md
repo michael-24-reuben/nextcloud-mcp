@@ -75,7 +75,8 @@ Guidance for Codex and other agents working in this repository.
 ## Implementation Habits
 
 - Prefer fixture-backed unit tests before live Nextcloud calls.
-- Live tests should be opt-in, non-destructive first, and use the non-admin app-password account.
+- Live API endpoint probes are allowed on the temp user account (`temporary`) because it exists for testing.
+- Live tests should remain non-destructive first and use the non-admin app-password account unless a later architect explicitly activates destructive/admin coverage.
 - Do not use admin scopes or admin accounts until the admin architect/module is active.
 - When creating HTTP clients, separate:
   - configured account id
