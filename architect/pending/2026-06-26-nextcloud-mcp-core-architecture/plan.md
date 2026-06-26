@@ -72,7 +72,7 @@ nextcloud-mcp-client
   -> http
   -> core
 
-nextcloud-mcp-admin-client
+nextcloud-mcp-admin
   -> nextcloud-mcp-client
   -> http
   -> core

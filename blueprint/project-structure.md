@@ -33,7 +33,7 @@ nextcloud-mcp/
 │  ├─ nextcloud-mcp-config/
 │  ├─ nextcloud-mcp-http/
 │  ├─ nextcloud-mcp-client/
-│  ├─ nextcloud-mcp-admin-client/
+│  ├─ nextcloud-mcp-admin/
 │  ├─ nextcloud-mcp-tool-api/
 │  ├─ nextcloud-mcp-tool-runtime/
 │  ├─ nextcloud-mcp-tool-catalog/
@@ -83,7 +83,7 @@ nextcloud-mcp/
     <module>lib/nextcloud-mcp-config</module>
     <module>lib/nextcloud-mcp-http</module>
     <module>lib/nextcloud-mcp-client</module>
-    <module>lib/nextcloud-mcp-admin-client</module>
+    <module>lib/nextcloud-mcp-admin</module>
     <module>lib/nextcloud-mcp-security</module>
 
     <!-- MCP model/runtime -->
@@ -337,12 +337,12 @@ public interface NextcloudClient {
 
 ---
 
-## `lib/nextcloud-mcp-admin-client`
+## `lib/nextcloud-mcp-admin`
 
 Plain Java admin client. This is separate from normal user access.
 
 ```text
-lib/nextcloud-mcp-admin-client/
+lib/nextcloud-mcp-admin/
 └─ src/main/java/org/mcp/nextcloud/admin/
    ├─ NextcloudAdminClient.java
    ├─ NextcloudAdminClientConfig.java
@@ -985,7 +985,7 @@ nextcloud-mcp-client
   → http
   → core
 
-nextcloud-mcp-admin-client
+nextcloud-mcp-admin
   → nextcloud-mcp-client
   → http
   → core
@@ -1033,7 +1033,7 @@ nextcloud-mcp/
 Then add:
 
 ```text
-nextcloud-mcp-admin-client
+nextcloud-mcp-admin
 nextcloud-mcp-admin-cli
 nextcloud-mcp-admin-tools
 nextcloud-mcp-trash-tools

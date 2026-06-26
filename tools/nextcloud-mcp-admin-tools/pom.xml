@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-client</artifactId>
+            <artifactId>nextcloud-mcp-admin</artifactId>
         </dependency>
     </dependencies>
 </project>
