@@ -35,4 +35,28 @@ class ConfigValidatorTest {
 
         assertTrue(new ConfigValidator().validate(config).isEmpty());
     }
+
+    @Test
+    void validatesEnabledAdminConfigReferencesAdminAccount() {
+        NextcloudAccountConfig account = new NextcloudAccountConfig(
+                "main", "https://cloud.example.com", "temporary", "${NC_APP_PASSWORD}", true, false, true, List.of());
+        NextcloudMcpConfig config = new NextcloudMcpConfig(
+                ServerConfig.defaults(), Map.of("main", account), new ToolCatalogConfig(Map.of()), new NextcloudAdminConfig(true, "main"));
+
+        List<ConfigValidationError> errors = new ConfigValidator().validate(config);
+
+        assertEquals(1, errors.size());
+        assertEquals("admin.accountId", errors.getFirst().path());
+        assertEquals("admin account must be marked admin", errors.getFirst().message());
+    }
+
+    @Test
+    void acceptsEnabledAdminConfigForEnabledAdminAccount() {
+        NextcloudAccountConfig account = new NextcloudAccountConfig(
+                "admin", "https://cloud.example.com", "admin", "${NC_ADMIN_APP_PASSWORD}", false, true, true, List.of("nextcloud.admin"));
+        NextcloudMcpConfig config = new NextcloudMcpConfig(
+                ServerConfig.defaults(), Map.of("admin", account), new ToolCatalogConfig(Map.of()), new NextcloudAdminConfig(true, "admin"));
+
+        assertTrue(new ConfigValidator().validate(config).isEmpty());
+    }
 }

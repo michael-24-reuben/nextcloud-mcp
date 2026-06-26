@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mcp.nextcloud.config.NextcloudAccountConfig;
+import org.mcp.nextcloud.config.NextcloudAdminConfig;
 import org.mcp.nextcloud.config.NextcloudMcpConfig;
 
 public final class ConfigValidator {
@@ -14,6 +15,7 @@ public final class ConfigValidator {
             return List.of(new ConfigValidationError("$", "config is required"));
         }
         config.accounts().forEach((id, account) -> validateAccount(id, account, errors));
+        validateAdmin(config.admin(), config, errors);
         return List.copyOf(errors);
     }
 
@@ -38,6 +40,27 @@ public final class ConfigValidator {
         require(path + ".appPassword", account.appPassword(), errors);
         if (account.admin() && !account.enabled()) {
             errors.add(new ConfigValidationError(path + ".enabled", "admin accounts must be explicitly enabled before use"));
+        }
+    }
+
+    private static void validateAdmin(NextcloudAdminConfig admin, NextcloudMcpConfig config, List<ConfigValidationError> errors) {
+        if (admin == null || !admin.enabled()) {
+            return;
+        }
+        if (admin.accountId() == null || admin.accountId().isBlank()) {
+            errors.add(new ConfigValidationError("admin.accountId", "value is required when admin API is enabled"));
+            return;
+        }
+        NextcloudAccountConfig account = config.accounts().get(admin.accountId());
+        if (account == null) {
+            errors.add(new ConfigValidationError("admin.accountId", "admin account must reference a configured account"));
+            return;
+        }
+        if (!account.enabled()) {
+            errors.add(new ConfigValidationError("admin.accountId", "admin account must be enabled"));
+        }
+        if (!account.admin()) {
+            errors.add(new ConfigValidationError("admin.accountId", "admin account must be marked admin"));
         }
     }
 

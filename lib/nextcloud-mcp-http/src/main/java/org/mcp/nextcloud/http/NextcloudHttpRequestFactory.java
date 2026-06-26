@@ -3,7 +3,6 @@ package org.mcp.nextcloud.http;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +34,10 @@ public final class NextcloudHttpRequestFactory {
 
     public HttpRequestSpec postOcsForm(String path, Map<String, String> fields) {
         return ocsForm(HttpMethod.POST, path, fields);
+    }
+
+    public HttpRequestSpec postOcsFormFields(String path, List<Map.Entry<String, String>> fields) {
+        return ocsFormFields(HttpMethod.POST, path, fields);
     }
 
     public HttpRequestSpec putOcsForm(String path, Map<String, String> fields) {
@@ -129,6 +132,13 @@ public final class NextcloudHttpRequestFactory {
     }
 
     private HttpRequestSpec ocsForm(HttpMethod method, String path, Map<String, String> fields) {
+        List<Map.Entry<String, String>> entries = fields == null
+                ? List.of()
+                : fields.entrySet().stream().toList();
+        return ocsFormFields(method, path, entries);
+    }
+
+    private HttpRequestSpec ocsFormFields(HttpMethod method, String path, List<Map.Entry<String, String>> fields) {
         Map<String, List<String>> headers = new HttpHeadersBuilder()
                 .header("Authorization", authorization())
                 .ocsJsonDefaults()
@@ -157,18 +167,18 @@ public final class NextcloudHttpRequestFactory {
         return URI.create(value);
     }
 
-    private static byte[] formBody(Map<String, String> fields) {
-        Map<String, String> nonNullFields = new LinkedHashMap<>();
+    private static byte[] formBody(List<Map.Entry<String, String>> fields) {
+        List<Map.Entry<String, String>> nonNullFields = new java.util.ArrayList<>();
         if (fields != null) {
-            fields.forEach((key, value) -> {
-                if (value != null) {
-                    nonNullFields.put(key, value);
+            fields.forEach(entry -> {
+                if (entry != null && entry.getValue() != null) {
+                    nonNullFields.add(entry);
                 }
             });
         }
         StringBuilder body = new StringBuilder();
         boolean first = true;
-        for (Map.Entry<String, String> entry : nonNullFields.entrySet()) {
+        for (Map.Entry<String, String> entry : nonNullFields) {
             if (!first) {
                 body.append("&");
             }
