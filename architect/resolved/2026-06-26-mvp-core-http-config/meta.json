@@ -1,0 +1,57 @@
+{
+  "id": "2026-06-26-mvp-core-http-config",
+  "title": "MVP Core HTTP Config",
+  "status": "resolved",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": "2026-06-26T04:29:03.4639561-04:00",
+  "resolvedAt": "2026-06-26T05:27:16.7137910-04:00",
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T05:27:16.7137910-04:00",
+  "tags": [
+    "mvp",
+    "core",
+    "http",
+    "config",
+    "java",
+    "priority-02"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-build-foundation",
+    "2026-06-26-mvp-security-policy-baseline",
+    "2026-06-26-mvp-nextcloud-user-client"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Second MVP child architect for Spring-free primitives, HTTP transport, and external configuration."
+  },
+  "resolutionOrder": 2,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the second MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T04:29:03.4639561-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after the build foundation was resolved."
+    },
+    {
+      "at": "2026-06-26T04:29:03.4639561-04:00",
+      "type": "BLOCKED",
+      "note": "Implementation requires user-created or user-approved module directories."
+    },
+    {
+      "at": "2026-06-26T05:27:16.7137910-04:00",
+      "type": "UNBLOCKED",
+      "note": "User created the needed module directories and POMs."
+    },
+    {
+      "at": "2026-06-26T05:27:16.7137910-04:00",
+      "type": "RESOLVED",
+      "note": "Implemented Spring-free core, HTTP, and config primitives with unit coverage and reactor verification."
+    }
+  ]
+}
