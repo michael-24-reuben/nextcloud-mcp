@@ -1,19 +1,19 @@
 # Assignment Handoff
 
 ## Assignment Status
-- assignmentStatus: first six MVP child architects resolved; admin API architects remain staged
-- lastUpdatedAt: 2026-06-26T15:54:38-04:00
+- assignmentStatus: first three admin API child architects resolved after user redirected from MVP outbound slices
+- lastUpdatedAt: 2026-06-26T16:28:24-04:00
 - updatedBy: Codex
 - currentBranch: master
 - expectedBranch: master
-- objectiveId: 2026-06-26-nextcloud-mcp-core-architecture
-- objectiveTitle: Nextcloud MCP Core Architecture
-- objectiveStatus: pending
+- objectiveId: 2026-06-26-nextcloud-admin-api-architecture
+- objectiveTitle: Nextcloud Admin API Architecture
+- objectiveStatus: in-progress
 
 ## Current Architect Entries
-- primary: architect/pending/2026-06-26-nextcloud-mcp-core-architecture
-- lastVerifiedCompleted: architect/resolved/2026-06-26-mvp-files-share-user-tools
-- pendingFollowUps: see MVP resolution order and admin API resolution order below
+- primary: architect/pending/2026-06-26-nextcloud-admin-api-architecture
+- lastVerifiedCompleted: architect/resolved/2026-06-26-admin-groups-subadmins
+- pendingFollowUps: see Admin API Resolution Order below
 - related: blueprint/project-structure.md, blueprint/nextcloud-client-api-model.md, blueprint/nextcloud-admin-api-model.md, AGENTS.md
 - blockedBy: none
 - shouldNotTouch: Preserve unrelated user changes and do not move the generated root Spring scaffold unless the server-module slice explicitly handles it.
@@ -30,6 +30,8 @@
 8. architect/pending/2026-06-26-mvp-spring-server-transport
 9. architect/pending/2026-06-26-mvp-integration-verification-docs
 
+The MVP outbound slices are intentionally paused until admin endpoint support is far enough along.
+
 ## Admin API Resolution Order
 
 Parent:
@@ -38,19 +40,19 @@ Parent:
 
 Children:
 
-1. architect/pending/2026-06-26-admin-auth-client-foundation
-2. architect/pending/2026-06-26-admin-users-provisioning
-3. architect/pending/2026-06-26-admin-groups-subadmins
+1. architect/resolved/2026-06-26-admin-auth-client-foundation
+2. architect/resolved/2026-06-26-admin-users-provisioning
+3. architect/resolved/2026-06-26-admin-groups-subadmins
 4. architect/pending/2026-06-26-admin-apps-provisioning
 5. architect/pending/2026-06-26-admin-share-boundary
 6. architect/pending/2026-06-26-admin-tools-policy-surface
 7. architect/pending/2026-06-26-admin-occ-bridge
 
 ## Current Objective
-- goal: Resolve the MVP child architects first unless explicitly redirected, while preserving a planned admin API track based on the admin blueprint.
-- scope: Sixth MVP slice completed; next MVP slice is the CLI caller that wires config, credentials, runtime dispatch, and concrete tool registrations for local invocation.
-- nonGoals: No Spring server wiring in the CLI slice unless its architect says so. No live Nextcloud calls unless the integration slice explicitly opts in. No admin implementation has been started by these records.
-- completionCriteria: Every MVP child reaches `resolved/` with assessment, fixes, verification, and summary before post-MVP capability work starts, unless the user changes priority.
+- goal: Finish admin API endpoint support before returning to CLI/server/integration wiring.
+- scope: Admin foundation, users, groups, membership, and subadmin client methods are implemented in `nextcloud-mcp-admin`.
+- nonGoals: No live admin calls were made. No admin MCP tools or confirmation policy yet. No Spring server wiring in this admin-client work.
+- completionCriteria: Admin client endpoint slices are resolved with fake HTTP tests before tool exposure and outbound runtime wiring.
 
 ## Admin Context
 - Admin module name: `nextcloud-mcp-admin`.
@@ -63,12 +65,15 @@ Children:
 - Share warning: admin credentials can call normal share APIs, but `AdminProvisioningClient` is not `FileShareClient`.
 
 ## Last Run Summary
-- runEndedAt: 2026-06-26T15:54:38-04:00
-- workCompleted: Implemented `NextcloudFilesTools`, `NextcloudShareTools`, and `NextcloudUserTools` registration factories. Added fake HTTP-backed tests for descriptor coverage, route selection, scope metadata, and representative handler invocation. Moved `2026-06-26-mvp-files-share-user-tools` to resolved.
-- workPartiallyCompleted: Share get, update, send email, and recommended sharees are intentionally deferred because the client layer does not yet expose those methods.
-- testsRun: focused compile, focused tool-module reactor tests, full Maven reactor tests.
+- runEndedAt: 2026-06-26T16:28:24-04:00
+- workCompleted: Implemented the first three admin API children:
+  - `NextcloudAdminCredentials`, `NextcloudAdminClient`, `AdminAuthClient`, admin-local OCS parser, identity probe.
+  - `NextcloudAdminUsersClient` with list/search, get, create, update field, editable fields, enable/disable, delete, groups/subadmins reads, welcome resend.
+  - `NextcloudAdminGroupsClient` with list/search, create, members, subadmins, display-name update, delete, membership add/remove, subadmin promote/demote.
+- workPartiallyCompleted: App provisioning, admin share boundary, admin tools policy, and OCC bridge remain pending.
+- testsRun: focused admin reactor, full Maven reactor, architect metadata parse, diff whitespace check.
 - testResult: passed.
-- verificationSetup: Tests used fake HTTP clients only. No live Nextcloud calls were made.
+- verificationSetup: Tests used fake HTTP clients only; no live Nextcloud admin calls.
 - commitCreated: no
 - commitHash: n/a
 
@@ -76,69 +81,66 @@ Children:
 
 | File | State | Reason |
 |---|---|---|
-| architect/resolved/2026-06-26-mvp-files-share-user-tools/ | moved/updated | Sixth MVP child activated and resolved with evidence. |
-| tools/nextcloud-mcp-files-tools/pom.xml | updated | Added `nextcloud-mcp-tool-runtime` dependency. |
-| tools/nextcloud-mcp-files-tools/src/main/java/org/mcp/nextcloud/tools/files/NextcloudFilesTools.java | added | Files tool descriptors and handlers. |
-| tools/nextcloud-mcp-files-tools/src/test/java/org/mcp/nextcloud/tools/files/NextcloudFilesToolsTest.java | added | Descriptor and fake HTTP-backed files handler tests. |
-| tools/nextcloud-mcp-share-tools/pom.xml | updated | Added `nextcloud-mcp-tool-runtime` dependency. |
-| tools/nextcloud-mcp-share-tools/src/main/java/org/mcp/nextcloud/tools/share/NextcloudShareTools.java | added | Share/sharee tool descriptors, handlers, and deferred registrations. |
-| tools/nextcloud-mcp-share-tools/src/test/java/org/mcp/nextcloud/tools/share/NextcloudShareToolsTest.java | added | Descriptor, deferred, and fake HTTP-backed share tests. |
-| tools/nextcloud-mcp-user-tools/pom.xml | updated | Added `nextcloud-mcp-tool-runtime` dependency. |
-| tools/nextcloud-mcp-user-tools/src/main/java/org/mcp/nextcloud/tools/user/NextcloudUserTools.java | added | User/capabilities/self metadata tool descriptors and handlers. |
-| tools/nextcloud-mcp-user-tools/src/test/java/org/mcp/nextcloud/tools/user/NextcloudUserToolsTest.java | added | Descriptor and fake HTTP-backed user tests. |
-| lib/nextcloud-mcp-http/src/test/java/org/mcp/nextcloud/http/HttpHelpersTest.java | updated | Replaced unordered form input with insertion-ordered input. |
-| architect/ASSIGNMENT.md | updated | Current execution card points to resolution 7. |
-| architect/HANDOFF.md | updated | Persistent ledger records resolution 6. |
+| lib/nextcloud-mcp-admin/pom.xml | updated | Added core/config/Jackson dependencies needed by admin client code. |
+| lib/nextcloud-mcp-admin/src/main/java/org/mcp/nextcloud/admin/ | added/updated | Admin credentials, facade, auth, users, groups/subadmins clients and records. |
+| lib/nextcloud-mcp-admin/src/test/java/org/mcp/nextcloud/admin/ | added | Fake HTTP-backed admin client tests. |
+| lib/nextcloud-mcp-config/src/main/java/org/mcp/nextcloud/config/validation/ConfigValidator.java | updated | Validates enabled admin config references an enabled admin account. |
+| lib/nextcloud-mcp-config/src/test/java/org/mcp/nextcloud/config/ConfigValidatorTest.java | updated | Covers admin account validation. |
+| lib/nextcloud-mcp-http/src/main/java/org/mcp/nextcloud/http/NextcloudHttpRequestFactory.java | updated | Adds ordered repeated OCS form-field support. |
+| architect/resolved/2026-06-26-admin-auth-client-foundation/ | moved/updated | First admin child resolved. |
+| architect/resolved/2026-06-26-admin-users-provisioning/ | moved/updated | Second admin child resolved. |
+| architect/resolved/2026-06-26-admin-groups-subadmins/ | moved/updated | Third admin child resolved. |
+| architect/ASSIGNMENT.md | updated | Current execution card points to admin app provisioning. |
+| architect/HANDOFF.md | updated | Persistent ledger records admin progress. |
 
 ## Existing Dirty Work Preserved
 
 | Area | State | Handling |
 |---|---|---|
-| scratch/callout/calling-to-michael.wav | added before this run | Preserved. |
-| architect/pending/2026-06-26-nextcloud-admin-api-architecture/ and child admin entries | added before this run | Preserved and referenced only in handoff context. |
+| scratch/callout/calling-to-michael.wav | added before admin work | Preserved. |
 
 ## Unfinished Files
 
 | File | State | Remaining Work | Safe Next Action |
 |---|---|---|---|
-| architect/pending/2026-06-26-mvp-cli-caller/ | pending | Seventh MVP child not started. | Move to active and wire CLI caller through config, client, registry, and runtime dispatcher. |
-| architect/pending/2026-06-26-admin-auth-client-foundation/ | pending | First admin child not started. | Activate only if the user redirects to admin API work or MVP sequence is complete. |
+| architect/pending/2026-06-26-admin-apps-provisioning/ | pending | App provisioning client not started. | Move to active and add app list/info/enable/disable methods with fake HTTP tests. |
+| architect/pending/2026-06-26-admin-share-boundary/ | pending | Admin share boundary not started. | Start after apps if still following admin order. |
+| tools/nextcloud-mcp-admin-tools/ | untouched | Admin tool exposure not started. | Wait for admin tools policy-surface child. |
 
 ## Next Files To Touch
 
 | File | Planned Change | Depends On |
 |---|---|---|
-| architect/pending/2026-06-26-mvp-cli-caller/ | Move to active and implement CLI caller. | Depends on resolved runtime and concrete tool modules. |
-| app or CLI module identified by the CLI architect | Wire local invocation command. | Depends on repository module layout and POMs. |
-| tools/nextcloud-mcp-*-tools/ | Register concrete factories into CLI runtime. | Depends on CLI design. |
+| architect/pending/2026-06-26-admin-apps-provisioning/ | Move to active. | Depends on resolved admin foundation. |
+| lib/nextcloud-mcp-admin/src/main/java/org/mcp/nextcloud/admin/NextcloudAdminClient.java | Add `apps()` facade accessor. | Depends on app client implementation. |
+| lib/nextcloud-mcp-admin/src/main/java/org/mcp/nextcloud/admin/NextcloudAdminAppsClient.java | Add app provisioning client. | New file. |
+| lib/nextcloud-mcp-admin/src/test/java/org/mcp/nextcloud/admin/NextcloudAdminAppsClientTest.java | Add fake HTTP route tests. | New file. |
 
 ## Decisions Made
-- Decision: Tool modules expose public `NextcloudFilesTools.registrations(NextcloudClient)`, `NextcloudShareTools.registrations(NextcloudClient)`, and `NextcloudUserTools.registrations(NextcloudClient)`.
-- Decision: Concrete tool modules depend on `nextcloud-mcp-tool-runtime` because runtime `ToolRegistration` is the registration contract.
-- Decision: File tool handlers use `ToolInvocationContext.accountId()` for WebDAV user path selection.
-- Decision: Share get, update, send email, and recommended sharees are registered as deferred tools instead of fake implementations.
-- Decision: Full Maven tests must remain green after the existing HTTP helper test was made deterministic.
+- Decision: Admin app-password credentials resolve from `NextcloudMcpConfig.admin.accountId`.
+- Decision: Enabled admin config must point to an enabled account marked `admin=true`.
+- Decision: Admin owns arbitrary user, group, membership, and subadmin provisioning.
+- Decision: Shared HTTP helper now supports ordered repeated OCS form fields for routes such as user creation.
+- Decision: Admin endpoint client slices use fake HTTP tests only; live calls are deferred to explicit integration/smoke-test work.
 
 ## Blockers
 - none
 
 ## Risks
-- Risk: CLI caller could bypass policy if it directly invokes handlers.
-  - Mitigation: Use `ToolDispatcher` and registry wiring rather than handler calls.
-- Risk: Deferred share tools may surprise callers.
-  - Mitigation: CLI/server layers should present `tool.deferred` clearly and keep descriptors marked with `metadata.deferred=true`.
-- Risk: Admin route work could blur into user/content route work.
-  - Mitigation: Keep `nextcloud-mcp-client` and `nextcloud-mcp-admin` route ownership separate in every child architect.
+- Risk: Client-level delete, subadmin, and future app enable/disable methods can be dangerous if exposed without policy.
+  - Mitigation: Keep admin tools pending until `admin-tools-policy-surface` defines high/critical confirmation behavior.
+- Risk: App enable/disable can destabilize AIO if used blindly.
+  - Mitigation: Implement client methods but treat exposure as critical-risk and verify via fake HTTP only in the app slice.
 
 ## Next Action
-Continue with MVP resolution 7 by activating `architect/pending/2026-06-26-mvp-cli-caller`, unless the user explicitly asks to start the admin API track.
+Continue admin endpoint work by activating `architect/pending/2026-06-26-admin-apps-provisioning` and implementing app list/info plus enable/disable client methods in `nextcloud-mcp-admin`.
 
 ## Resume Commands
 
 ```powershell
 Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\ASSIGNMENT.md'
 Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\HANDOFF.md'
-Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\pending\2026-06-26-mvp-cli-caller\meta.json' | ConvertFrom-Json | Out-Null
+Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\pending\2026-06-26-admin-apps-provisioning\meta.json' | ConvertFrom-Json | Out-Null
 git -C 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp' status --short --branch
 .\mvnw.cmd test
 ```
