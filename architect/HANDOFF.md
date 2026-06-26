@@ -48,28 +48,28 @@
 
 ## Files Changed By This Run
 
-| File | State | Reason |
-|---|---|---|
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolDescriptor.java | added | Framework-neutral tool descriptor. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolInputSchema.java | added | JSON-compatible input schema container. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolParameter.java | added | Parameter metadata and validation hints. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolSecurity.java | added | Descriptor-level scope/destructive metadata. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolInvocation.java | added | Tool invocation contract. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolInvocationContext.java | added | Invocation metadata shared by transports. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolResult.java | added | Success/error result contract. |
-| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolHandler.java | added | Functional handler contract for concrete tools. |
-| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/InMemoryToolRegistry.java | added | Runtime registry with duplicate ID protection. |
-| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolDispatcher.java | added | Shared list/invoke runtime path. |
-| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolArgumentValidator.java | added | Required, unknown, enum, and type validation. |
-| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/DefaultToolPolicyInterceptor.java | added | Bridge from descriptor security metadata to `ToolAccessPolicy`. |
-| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolAuditSink.java | added | Audit event sink contract. |
-| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolArgumentMapper.java | added | Jackson-backed argument-to-record helper. |
-| lib/nextcloud-mcp-tool-runtime/src/test/java/org/mcp/nextcloud/tool/runtime/ToolDispatcherTest.java | added | Fake-tool dispatcher tests. |
-| lib/nextcloud-mcp-tool-runtime/pom.xml | updated | Added dependency on `nextcloud-mcp-security`. |
-| architect/resolved/2026-06-26-mvp-mcp-tool-runtime/ | moved/resolved | Fifth MVP child completed. |
-| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/ | updated | Parent progress and runtime baseline recorded. |
-| architect/ASSIGNMENT.md | updated | Current execution card points at resolution 6. |
-| architect/HANDOFF.md | updated | Persistent ledger records fifth-slice completion. |
+| File                                                                                                          | State          | Reason                                                          |
+|---------------------------------------------------------------------------------------------------------------|----------------|-----------------------------------------------------------------|
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolDescriptor.java                       | added          | Framework-neutral tool descriptor.                              |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolInputSchema.java                      | added          | JSON-compatible input schema container.                         |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolParameter.java                        | added          | Parameter metadata and validation hints.                        |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolSecurity.java                         | added          | Descriptor-level scope/destructive metadata.                    |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolInvocation.java                       | added          | Tool invocation contract.                                       |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolInvocationContext.java                | added          | Invocation metadata shared by transports.                       |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolResult.java                           | added          | Success/error result contract.                                  |
+| lib/nextcloud-mcp-tool-api/src/main/java/org/mcp/nextcloud/tool/api/ToolHandler.java                          | added          | Functional handler contract for concrete tools.                 |
+| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/InMemoryToolRegistry.java         | added          | Runtime registry with duplicate ID protection.                  |
+| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolDispatcher.java               | added          | Shared list/invoke runtime path.                                |
+| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolArgumentValidator.java        | added          | Required, unknown, enum, and type validation.                   |
+| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/DefaultToolPolicyInterceptor.java | added          | Bridge from descriptor security metadata to `ToolAccessPolicy`. |
+| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolAuditSink.java                | added          | Audit event sink contract.                                      |
+| lib/nextcloud-mcp-tool-runtime/src/main/java/org/mcp/nextcloud/tool/runtime/ToolArgumentMapper.java           | added          | Jackson-backed argument-to-record helper.                       |
+| lib/nextcloud-mcp-tool-runtime/src/test/java/org/mcp/nextcloud/tool/runtime/ToolDispatcherTest.java           | added          | Fake-tool dispatcher tests.                                     |
+| lib/nextcloud-mcp-tool-runtime/pom.xml                                                                        | updated        | Added dependency on `nextcloud-mcp-security`.                   |
+| architect/resolved/2026-06-26-mvp-mcp-tool-runtime/                                                           | moved/resolved | Fifth MVP child completed.                                      |
+| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/                                                 | updated        | Parent progress and runtime baseline recorded.                  |
+| architect/ASSIGNMENT.md                                                                                       | updated        | Current execution card points at resolution 6.                  |
+| architect/HANDOFF.md                                                                                          | updated        | Persistent ledger records fifth-slice completion.               |
 
 ## Existing Dirty Work Preserved
 
