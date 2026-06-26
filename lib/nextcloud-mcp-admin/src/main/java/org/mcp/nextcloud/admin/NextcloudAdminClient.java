@@ -8,6 +8,8 @@ public final class NextcloudAdminClient {
     private final AdminAuthClient auth;
     private final NextcloudAdminUsersClient users;
     private final NextcloudAdminGroupsClient groups;
+    private final NextcloudAdminAppsClient apps;
+    private final NextcloudAdminSharesSupport shares;
 
     public NextcloudAdminClient(HttpClientAdapter httpClient, NextcloudAdminCredentials credentials) {
         HttpClientAdapter adapter = Preconditions.requireNonNull(httpClient, "http client");
@@ -20,6 +22,8 @@ public final class NextcloudAdminClient {
         this.auth = new AdminAuthClient(adapter, requests, ocsParser);
         this.users = new NextcloudAdminUsersClient(adapter, requests, ocsParser);
         this.groups = new NextcloudAdminGroupsClient(adapter, requests, ocsParser);
+        this.apps = new NextcloudAdminAppsClient(adapter, requests, ocsParser);
+        this.shares = new NextcloudAdminSharesSupport(adapter, adminCredentials);
     }
 
     public AdminAuthClient auth() {
@@ -32,5 +36,13 @@ public final class NextcloudAdminClient {
 
     public NextcloudAdminGroupsClient groups() {
         return groups;
+    }
+
+    public NextcloudAdminAppsClient apps() {
+        return apps;
+    }
+
+    public NextcloudAdminSharesSupport shares() {
+        return shares;
     }
 }
