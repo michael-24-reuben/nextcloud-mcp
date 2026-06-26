@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-admin-share-boundary",
   "title": "Admin Share Boundary",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T15:30:00-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T16:55:42-04:00",
+  "resolvedAt": "2026-06-26T16:57:18-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "updatedAt": "2026-06-26T16:57:18-04:00",
   "tags": [
     "admin",
     "shares",
@@ -28,6 +28,16 @@
       "at": "2026-06-26T15:30:00-04:00",
       "type": "CREATED",
       "note": "Created admin share boundary decision architect."
+    },
+    {
+      "at": "2026-06-26T16:55:42-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after admin app provisioning implementation compiled."
+    },
+    {
+      "at": "2026-06-26T16:57:18-04:00",
+      "type": "RESOLVED",
+      "note": "Added admin share support that reuses the normal share client and verified the route remains under OCS share API."
     }
   ]
 }
