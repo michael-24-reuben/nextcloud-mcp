@@ -21,7 +21,7 @@
         <module>lib/nextcloud-mcp-config</module>
         <module>lib/nextcloud-mcp-http</module>
         <module>lib/nextcloud-mcp-client</module>
-        <module>lib/nextcloud-mcp-admin-client</module>
+        <module>lib/nextcloud-mcp-admin</module>
         <module>lib/nextcloud-mcp-security</module>
         <module>lib/nextcloud-mcp-tool-api</module>
         <module>lib/nextcloud-mcp-tool-runtime</module>
@@ -88,7 +88,7 @@
             </dependency>
             <dependency>
                 <groupId>org.mcp.nextcloud</groupId>
-                <artifactId>nextcloud-mcp-admin-client</artifactId>
+                <artifactId>nextcloud-mcp-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
