@@ -25,7 +25,15 @@
         </dependency>
         <dependency>
             <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
             <artifactId>nextcloud-mcp-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
