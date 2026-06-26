@@ -1,0 +1,46 @@
+{
+  "id": "2026-06-26-mvp-nextcloud-user-client",
+  "title": "MVP Nextcloud User Client",
+  "status": "resolved",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": "2026-06-26T11:17:29.4610315-04:00",
+  "resolvedAt": "2026-06-26T11:25:28.2145637-04:00",
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T11:25:28.2145637-04:00",
+  "tags": [
+    "mvp",
+    "nextcloud",
+    "client",
+    "webdav",
+    "ocs",
+    "priority-04"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-core-http-config",
+    "2026-06-26-mvp-files-share-user-tools"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "MVP child architect for the non-admin Nextcloud API client."
+  },
+  "resolutionOrder": 4,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the fourth MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T11:17:29.4610315-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated to implement the Spring-free non-admin Nextcloud user client."
+    },
+    {
+      "at": "2026-06-26T11:25:28.2145637-04:00",
+      "type": "RESOLVED",
+      "note": "Implemented the Spring-free non-admin Nextcloud client with fixture-backed tests and full reactor verification."
+    }
+  ]
+}
