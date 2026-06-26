@@ -1,8 +1,8 @@
 # Assignment Handoff
 
 ## Assignment Status
-- assignmentStatus: first MVP child resolved; next two active-blocked
-- lastUpdatedAt: 2026-06-26T04:29:45.2912599-04:00
+- assignmentStatus: first three MVP child architects resolved
+- lastUpdatedAt: 2026-06-26T05:27:16.7137910-04:00
 - updatedBy: Codex
 - currentBranch: master
 - expectedBranch: master
@@ -12,17 +12,17 @@
 
 ## Current Architect Entries
 - primary: architect/pending/2026-06-26-nextcloud-mcp-core-architecture
-- lastVerifiedCompleted: architect/resolved/2026-06-26-mvp-build-foundation
+- lastVerifiedCompleted: architect/resolved/2026-06-26-mvp-security-policy-baseline
 - pendingFollowUps: see MVP resolution order below
 - related: blueprint/project-structure.md, blueprint/nextcloud-api-model.md
-- blockedBy: missing user-created or user-approved module directories for `2026-06-26-mvp-core-http-config` and `2026-06-26-mvp-security-policy-baseline`
-- shouldNotTouch: Do not create project modules, Maven child POMs, Java packages, or source implementation files until the user creates the modules or explicitly approves that work.
+- blockedBy: none
+- shouldNotTouch: Preserve unrelated user changes and do not move the generated root Spring scaffold unless the server-module slice explicitly handles it.
 
 ## MVP Resolution Order
 
 1. architect/resolved/2026-06-26-mvp-build-foundation
-2. architect/active/2026-06-26-mvp-core-http-config (blocked)
-3. architect/active/2026-06-26-mvp-security-policy-baseline (blocked)
+2. architect/resolved/2026-06-26-mvp-core-http-config
+3. architect/resolved/2026-06-26-mvp-security-policy-baseline
 4. architect/pending/2026-06-26-mvp-nextcloud-user-client
 5. architect/pending/2026-06-26-mvp-mcp-tool-runtime
 6. architect/pending/2026-06-26-mvp-files-share-user-tools
@@ -32,15 +32,15 @@
 
 ## Current Objective
 - goal: Resolve the MVP child architects first, then create/resolve post-MVP entries later.
-- scope: Resolve the first three MVP child architects as far as the current repository boundary allows.
-- nonGoals: No Maven module creation, no Java implementation inside missing modules, no Spring wiring, no live Nextcloud calls.
+- scope: Resolve the first three MVP child architects and prepare the next client slice.
+- nonGoals: No Spring wiring, no live Nextcloud calls, no tool/runtime implementation beyond dependency compatibility.
 - completionCriteria: Every MVP child reaches `resolved/` with assessment, fixes, verification, and summary before post-MVP capability work starts.
 
 ## Last Run Summary
-- runEndedAt: 2026-06-26T04:29:45.2912599-04:00
-- workCompleted: Resolved the build-foundation child by converting the root POM into a Spring-free Java 25 Maven parent/aggregator; activated the next two child architects and recorded blockers.
-- workPartiallyCompleted: Core/http/config and security policy baseline are started but blocked because required module directories do not exist and module creation remains outside the approved boundary.
-- testsRun: `.\mvnw.cmd -version`; `.\mvnw.cmd test`; XML parse for `pom.xml`; all architect `meta.json` validation.
+- runEndedAt: 2026-06-26T05:27:16.7137910-04:00
+- workCompleted: Implemented and resolved core/http/config and security policy baseline after the user created the modules; fixed parent dependency management for the module graph.
+- workPartiallyCompleted: none for the first three MVP child architects.
+- testsRun: `.\mvnw.cmd test`; all architect `meta.json` validation.
 - testResult: passed.
 - verificationSetup: Validate all architect `meta.json` files with `ConvertFrom-Json`, run `.\mvnw.cmd test`, inspect git status.
 - commitCreated: no
@@ -50,13 +50,18 @@
 
 | File | State | Reason |
 |---|---|---|
-| pom.xml | updated | Root Maven project is now a Spring-free Java 25 aggregator/parent with plugin and dependency management. |
-| architect/resolved/2026-06-26-mvp-build-foundation/ | moved/resolved | First MVP child completed for the current no-module state. |
-| architect/active/2026-06-26-mvp-core-http-config/ | moved/blocked | Second MVP child started and blocked on missing modules. |
-| architect/active/2026-06-26-mvp-security-policy-baseline/ | moved/blocked | Third MVP child started and blocked on missing security module/core primitives. |
-| architect/ASSIGNMENT.md | updated | Current execution card now points at module-boundary blocker. |
-| architect/HANDOFF.md | updated | Persistent ledger records first-three architect progress. |
-| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/ | updated | Parent now records the first-three progress. |
+| pom.xml | updated | Parent dependency management for the user-created module graph; root application dependencies removed. |
+| lib/nextcloud-mcp-config/pom.xml | updated | Added dependency on core primitives. |
+| lib/nextcloud-mcp-http/pom.xml | updated | Added dependency on core primitives. |
+| lib/nextcloud-mcp-core/ | implemented | Core errors, IDs, results, preconditions, and masking utilities. |
+| lib/nextcloud-mcp-http/ | implemented | HTTP abstractions, Basic/Bearer auth, OCS headers, retry/rate-limit policies, and JDK adapter. |
+| lib/nextcloud-mcp-config/ | implemented | Config records, YAML loader, secret resolver, and validation. |
+| lib/nextcloud-mcp-security/ | implemented | Scopes, principals, policies, secret masker, audit event, and tests. |
+| architect/resolved/2026-06-26-mvp-core-http-config/ | moved/resolved | Second MVP child completed. |
+| architect/resolved/2026-06-26-mvp-security-policy-baseline/ | moved/resolved | Third MVP child completed. |
+| architect/ASSIGNMENT.md | updated | Current execution card points at the next child. |
+| architect/HANDOFF.md | updated | Persistent ledger records first-three completion. |
+| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/ | updated | Parent records first-three completion. |
 | architect/pending/2026-06-26-mvp-nextcloud-user-client/ | created | Fourth MVP child. |
 | architect/pending/2026-06-26-mvp-mcp-tool-runtime/ | created | Fifth MVP child. |
 | architect/pending/2026-06-26-mvp-files-share-user-tools/ | created | Sixth MVP child. |
@@ -75,16 +80,14 @@
 
 | File | State | Remaining Work | Safe Next Action |
 |---|---|---|---|
-| architect/active/2026-06-26-mvp-core-http-config/ | blocked | Missing `lib/nextcloud-mcp-core`, `lib/nextcloud-mcp-http`, and `lib/nextcloud-mcp-config`. | Create the modules or approve Codex to create them, then mark unblocked and implement. |
-| architect/active/2026-06-26-mvp-security-policy-baseline/ | blocked | Missing `lib/nextcloud-mcp-security` and core primitives. | Create the module or approve Codex to create it after core exists. |
+| architect/pending/2026-06-26-mvp-nextcloud-user-client/ | pending | Next MVP child not started. | Move to active and implement the Nextcloud user client. |
 
 ## Next Files To Touch
 
 | File | Planned Change | Depends On |
 |---|---|---|
-| architect/active/2026-06-26-mvp-core-http-config/ | Unblock and implement core/http/config. | Requires module directories/POMs. |
-| architect/active/2026-06-26-mvp-security-policy-baseline/ | Unblock and implement security policy. | Requires security module and core primitives. |
-| pom.xml | Add module paths when modules exist. | Requires user-created or approved module directories. |
+| architect/pending/2026-06-26-mvp-nextcloud-user-client/ | Move to active and implement client APIs. | Depends on resolved core/http/config/security baseline. |
+| lib/nextcloud-mcp-client/ | Implement Nextcloud user client. | Depends on HTTP/config primitives. |
 
 ## Decisions Made
 - Decision: The MVP is represented by nine child architects with explicit `resolutionOrder` fields.
@@ -92,35 +95,29 @@
 - Decision: Final integration verification/docs is the last MVP child.
 - Decision: Admin, trash, versions, comments, status, catalog, Docker/release packaging, and admin CLI remain post-MVP unless the user reprioritizes them.
 - Decision: The root POM must be framework-neutral; Spring Boot dependency management is isolated behind a future `spring-server` profile that activates only when `app/nextcloud-mcp-server/pom.xml` exists.
-- Decision: The root `<modules>` list remains empty until module directories exist or Codex is explicitly approved to create them.
+- Decision: The root `<modules>` list now reflects the user-created lib and tool modules.
+- Decision: Root dependencies remain test/dependency-management only; app/server dependencies belong in a future server module.
 
 ## Blockers
-- Blocker: Core/http/config module directories are missing.
-  - Impact: Cannot implement `2026-06-26-mvp-core-http-config` without creating project modules.
-  - Required resolution: User creates `lib/nextcloud-mcp-core`, `lib/nextcloud-mcp-http`, and `lib/nextcloud-mcp-config`, or explicitly approves Codex to create them.
-  - Recorded in: `architect/active/2026-06-26-mvp-core-http-config/blockers.md`
-- Blocker: Security module directory is missing.
-  - Impact: Cannot implement `2026-06-26-mvp-security-policy-baseline` without creating a project module.
-  - Required resolution: User creates `lib/nextcloud-mcp-security`, or explicitly approves Codex to create it after core exists.
-  - Recorded in: `architect/active/2026-06-26-mvp-security-policy-baseline/blockers.md`
+- none
 
 ## Risks
-- Risk: The dirty `pom.xml` may already contain user module choices.
-  - Mitigation: Current run found no pre-existing `pom.xml` diff; root POM was intentionally changed by this run.
 - Risk: Some verification commands in child contexts reference modules that may not exist yet.
-  - Mitigation: Treat them as intended baselines once the user-created modules exist.
+  - Mitigation: User-created modules now exist; first three architects verified through the full reactor.
 - Risk: The generated root Spring source tree remains present but is no longer compiled by the root `pom` project.
   - Mitigation: Move or replace it when `app/nextcloud-mcp-server` is created.
+- Risk: Config YAML loading has only foundation-level tests.
+  - Mitigation: Add fixture tests when config examples/schemas are introduced.
 
 ## Next Action
-Create the missing module directories/POMs or explicitly approve Codex to create them. Then update `architect/active/2026-06-26-mvp-core-http-config` from `blocked` to `active`, implement the core/http/config baseline, and add the approved module paths to the root `<modules>` list.
+Activate `architect/pending/2026-06-26-mvp-nextcloud-user-client`, implement the MVP user client in `lib/nextcloud-mcp-client`, and keep it Spring-free.
 
 ## Resume Commands
 
 ```powershell
 Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\ASSIGNMENT.md'
 Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\HANDOFF.md'
-Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\active\2026-06-26-mvp-core-http-config\meta.json' | ConvertFrom-Json | Out-Null
+Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\pending\2026-06-26-mvp-nextcloud-user-client\meta.json' | ConvertFrom-Json | Out-Null
 git -C 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp' status --short --branch
 .\mvnw.cmd test
 ```
