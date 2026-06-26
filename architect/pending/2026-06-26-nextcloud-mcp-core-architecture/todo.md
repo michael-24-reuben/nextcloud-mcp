@@ -20,6 +20,7 @@
 - [x] Activate MVP security policy baseline child architect and record module-creation blocker.
 - [x] Resolve MVP security policy baseline child architect after modules were created.
 - [x] Create user Nextcloud client child architect.
+- [x] Resolve user Nextcloud client child architect.
 - [x] Create MCP tool API/runtime child architect.
 - [x] Create MVP files/share/user tools child architect.
 - [x] Create CLI child architect.
@@ -33,6 +34,6 @@
 
 - [x] Whether root Maven dependencies should be moved from the aggregator into app/server modules once module creation begins.
 - [ ] Whether Login Flow V2 belongs in MVP or later.
-- [ ] Which XML parser abstraction should be used for WebDAV response mapping.
+- [x] Which XML parser abstraction should be used for WebDAV response mapping.
 - [x] Whether security is a separate early module or introduced alongside runtime and split later.
 - [ ] Whether the first CLI should call the runtime in-process only or also support remote server calls.

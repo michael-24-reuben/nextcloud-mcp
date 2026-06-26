@@ -10,9 +10,9 @@
 - Branch: `master`
 - Root project path: `J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp`
 - Root `pom.xml` has packaging `pom`.
-- Root `pom.xml` currently has an empty `<modules>` block.
+- Root `pom.xml` currently lists the user-created `lib/` and `tools/` modules.
 - Existing generated Spring Boot scaffold is present under root `src/`.
-- No implementation modules were created in this pass.
+- User-created modules exist; MVP slices should inspect the actual POMs before editing.
 
 ## Blueprint Architecture
 
@@ -87,7 +87,7 @@ Spring server transport
 Post-MVP:
 
 ```text
-Search refinements
+Search refinements and live search verification
 Trashbin
 Versions
 Comments
