@@ -15,8 +15,10 @@
 - [x] Resolve build-foundation child architect for the current no-module repository state.
 - [x] Create core/http/config child architect.
 - [x] Activate core/http/config child architect and record module-creation blocker.
+- [x] Resolve core/http/config child architect after modules were created.
 - [x] Create MVP security policy baseline child architect.
 - [x] Activate MVP security policy baseline child architect and record module-creation blocker.
+- [x] Resolve MVP security policy baseline child architect after modules were created.
 - [x] Create user Nextcloud client child architect.
 - [x] Create MCP tool API/runtime child architect.
 - [x] Create MVP files/share/user tools child architect.
