@@ -27,6 +27,10 @@
         </dependency>
         <dependency>
             <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-tool-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
             <artifactId>nextcloud-mcp-client</artifactId>
         </dependency>
     </dependencies>
