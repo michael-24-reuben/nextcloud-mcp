@@ -1,0 +1,57 @@
+{
+  "id": "2026-06-26-mvp-security-policy-baseline",
+  "title": "MVP Security Policy Baseline",
+  "status": "resolved",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": "2026-06-26T04:29:03.4639561-04:00",
+  "resolvedAt": "2026-06-26T05:27:16.7137910-04:00",
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T05:27:16.7137910-04:00",
+  "tags": [
+    "mvp",
+    "security",
+    "policy",
+    "scopes",
+    "audit",
+    "priority-03"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-core-http-config",
+    "2026-06-26-mvp-mcp-tool-runtime",
+    "2026-06-26-mvp-files-share-user-tools"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "MVP child architect for account isolation, scope checks, secret masking, and delete-by-default behavior."
+  },
+  "resolutionOrder": 3,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the third MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T04:29:03.4639561-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after the build foundation was resolved."
+    },
+    {
+      "at": "2026-06-26T04:29:03.4639561-04:00",
+      "type": "BLOCKED",
+      "note": "Implementation requires the security module directory to be created or approved."
+    },
+    {
+      "at": "2026-06-26T05:27:16.7137910-04:00",
+      "type": "UNBLOCKED",
+      "note": "User created the security module directory and POM."
+    },
+    {
+      "at": "2026-06-26T05:27:16.7137910-04:00",
+      "type": "RESOLVED",
+      "note": "Implemented MVP security scopes, policies, masking, audit event shape, and tests."
+    }
+  ]
+}
