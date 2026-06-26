@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-admin-users-provisioning",
   "title": "Admin Users Provisioning",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T15:30:00-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T16:21:20-04:00",
+  "resolvedAt": "2026-06-26T16:26:46-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "updatedAt": "2026-06-26T16:26:46-04:00",
   "tags": [
     "admin",
     "users",
@@ -27,6 +27,16 @@
       "at": "2026-06-26T15:30:00-04:00",
       "type": "CREATED",
       "note": "Created admin users provisioning child architect."
+    },
+    {
+      "at": "2026-06-26T16:21:20-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after admin auth client foundation was resolved."
+    },
+    {
+      "at": "2026-06-26T16:26:46-04:00",
+      "type": "RESOLVED",
+      "note": "Added admin user provisioning client surface and fake HTTP tests."
     }
   ]
 }

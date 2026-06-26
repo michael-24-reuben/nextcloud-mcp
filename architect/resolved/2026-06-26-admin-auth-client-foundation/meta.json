@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-admin-auth-client-foundation",
   "title": "Admin Auth Client Foundation",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T15:30:00-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T16:18:28-04:00",
+  "resolvedAt": "2026-06-26T16:21:20-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "updatedAt": "2026-06-26T16:21:20-04:00",
   "tags": [
     "admin",
     "auth",
@@ -27,6 +27,16 @@
       "at": "2026-06-26T15:30:00-04:00",
       "type": "CREATED",
       "note": "Created admin foundation child architect."
+    },
+    {
+      "at": "2026-06-26T16:18:28-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after user redirected resolution order to admin API work."
+    },
+    {
+      "at": "2026-06-26T16:21:20-04:00",
+      "type": "RESOLVED",
+      "note": "Added admin client foundation, credential mapping, OCS helper path, and fake HTTP verification."
     }
   ]
 }
