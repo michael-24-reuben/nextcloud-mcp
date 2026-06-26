@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,10 @@ class HttpHelpersTest {
         HttpRequestSpec adminUsers = requests.getOcs("/ocs/v1.php/cloud/users", Map.of("search", "temp"));
         HttpRequestSpec userFiles = requests.webDav(
                 HttpMethod.PROPFIND, "temporary", "/Codex Scratch", true, Map.of("Depth", "1"), null);
-        HttpRequestSpec updateUser = requests.putOcsForm(
-                "/ocs/v1.php/cloud/users/temporary", Map.of("key", "displayname", "value", "tempo"));
+        Map<String, String> updateFields = new LinkedHashMap<>();
+        updateFields.put("key", "displayname");
+        updateFields.put("value", "tempo");
+        HttpRequestSpec updateUser = requests.putOcsForm("/ocs/v1.php/cloud/users/temporary", updateFields);
 
         assertEquals("https://cloud.example.com/ocs/v1.php/cloud/users?search=temp", adminUsers.uri().toString());
         assertEquals("https://cloud.example.com/remote.php/dav/files/temporary/Codex%20Scratch/", userFiles.uri().toString());
