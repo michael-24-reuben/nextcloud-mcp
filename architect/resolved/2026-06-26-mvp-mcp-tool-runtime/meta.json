@@ -1,0 +1,47 @@
+{
+  "id": "2026-06-26-mvp-mcp-tool-runtime",
+  "title": "MVP MCP Tool Runtime",
+  "status": "resolved",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": "2026-06-26T12:05:03.3656849-04:00",
+  "resolvedAt": "2026-06-26T12:08:50.4424717-04:00",
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T12:08:50.4424717-04:00",
+  "tags": [
+    "mvp",
+    "mcp",
+    "runtime",
+    "tool-api",
+    "priority-05"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-security-policy-baseline",
+    "2026-06-26-mvp-files-share-user-tools",
+    "2026-06-26-mvp-cli-caller",
+    "2026-06-26-mvp-spring-server-transport"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "MVP child architect for framework-neutral MCP tool contracts and dispatcher runtime."
+  },
+  "resolutionOrder": 5,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the fifth MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T12:05:03.3656849-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated to implement the framework-neutral tool API and runtime dispatcher."
+    },
+    {
+      "at": "2026-06-26T12:08:50.4424717-04:00",
+      "type": "RESOLVED",
+      "note": "Implemented tool API/runtime contracts, dispatcher, validation, policy, audit hooks, and fake-tool tests."
+    }
+  ]
+}
