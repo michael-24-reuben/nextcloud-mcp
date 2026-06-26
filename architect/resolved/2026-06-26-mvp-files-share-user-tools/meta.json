@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-mvp-files-share-user-tools",
   "title": "MVP Files Share User Tools",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T03:55:14.4215697-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T15:47:24.7150983-04:00",
+  "resolvedAt": "2026-06-26T15:54:38.4983822-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "updatedAt": "2026-06-26T15:54:38.4983822-04:00",
   "tags": [
     "mvp",
     "tools",
@@ -33,6 +33,16 @@
       "at": "2026-06-26T03:55:14.4215697-04:00",
       "type": "CREATED",
       "note": "Created as the sixth MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-26T15:47:24.7150983-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated to implement MVP files, shares, sharees, and user tool registrations."
+    },
+    {
+      "at": "2026-06-26T15:54:38.4983822-04:00",
+      "type": "RESOLVED",
+      "note": "Implemented files, share, sharee, and user tool registration factories with fake HTTP-backed tests."
     }
   ]
 }
