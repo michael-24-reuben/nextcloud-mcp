@@ -1,0 +1,31 @@
+# Todo
+
+## Parent Record
+
+- [x] Review `blueprint/project-structure.md`.
+- [x] Review `blueprint/nextcloud-api-model.md`.
+- [x] Create architect lifecycle folders.
+- [x] Create root assignment and handoff files.
+- [x] Create parent pending architecture entry.
+- [x] Preserve the user boundary: do not create project modules.
+
+## Future Child Architects
+
+- [ ] Create build-foundation child architect.
+- [ ] Create core/http/config child architect.
+- [ ] Create user Nextcloud client child architect.
+- [ ] Create MCP tool API/runtime child architect.
+- [ ] Create MVP files/share/user tools child architects.
+- [ ] Create CLI child architect.
+- [ ] Create Spring server transport child architect.
+- [ ] Create security hardening child architect.
+- [ ] Create post-MVP capability child architects for trash, versions, comments, status, catalog, admin client, admin tools, and admin CLI.
+- [ ] Create packaging/config/docs child architect.
+
+## Decisions To Revisit
+
+- [ ] Whether root Maven dependencies should be moved from the aggregator into app/server modules once module creation begins.
+- [ ] Whether Login Flow V2 belongs in MVP or later.
+- [ ] Which XML parser abstraction should be used for WebDAV response mapping.
+- [ ] Whether security is a separate early module or introduced alongside runtime and split later.
+- [ ] Whether the first CLI should call the runtime in-process only or also support remote server calls.

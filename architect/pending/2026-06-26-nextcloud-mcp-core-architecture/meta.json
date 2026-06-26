@@ -1,0 +1,37 @@
+{
+  "id": "2026-06-26-nextcloud-mcp-core-architecture",
+  "title": "Nextcloud MCP Core Architecture",
+  "status": "pending",
+  "createdAt": "2026-06-26T03:38:35.9698151-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T03:38:35.9698151-04:00",
+  "tags": [
+    "architecture",
+    "prd",
+    "mvp",
+    "nextcloud",
+    "mcp",
+    "java",
+    "maven",
+    "future"
+  ],
+  "related": [],
+  "sourceReports": [],
+  "origin": {
+    "source": "chat",
+    "summary": "User asked to review blueprint/project-structure.md and blueprint/nextcloud-api-model.md, then create a core architect for future smaller architects without creating project modules."
+  },
+  "sourceFiles": [
+    "blueprint/project-structure.md",
+    "blueprint/nextcloud-api-model.md"
+  ],
+  "events": [
+    {
+      "at": "2026-06-26T03:38:35.9698151-04:00",
+      "type": "CREATED",
+      "note": "Created parent pending architecture record from the two blueprint files."
+    }
+  ]
+}
