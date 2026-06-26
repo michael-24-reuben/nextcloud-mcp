@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-admin-apps-provisioning",
   "title": "Admin Apps Provisioning",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T15:30:00-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T16:49:37-04:00",
+  "resolvedAt": "2026-06-26T16:55:41-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "updatedAt": "2026-06-26T16:55:41-04:00",
   "tags": [
     "admin",
     "apps",
@@ -28,6 +28,16 @@
       "at": "2026-06-26T15:30:00-04:00",
       "type": "CREATED",
       "note": "Created admin apps provisioning child architect."
+    },
+    {
+      "at": "2026-06-26T16:49:37-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after admin users and groups endpoint clients passed focused verification."
+    },
+    {
+      "at": "2026-06-26T16:55:41-04:00",
+      "type": "RESOLVED",
+      "note": "Added admin app list/info/enable/disable methods with critical-risk metadata and fake HTTP tests."
     }
   ]
 }
