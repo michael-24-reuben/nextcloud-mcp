@@ -51,121 +51,129 @@
         <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>3.5.4</maven.failsafe.plugin.version>
         <junit.jupiter.version>6.0.0</junit.jupiter.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <jackson.version>2.19.2</jackson.version>
+        <jakarta.validation.version>3.1.1</jakarta.validation.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-        <!-- Not found in Maven Central, so commented out for now. -->
-        <!--
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>-->
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-
-        <!-- -=- -->
-
-        <!--Dependency is duplicated -->
-        <!--<dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-core</artifactId>
-        </dependency>-->
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-config</artifactId>
-        </dependency>
-
-        <!--Dependency is duplicated -->
-        <!--<dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-client</artifactId>
-        </dependency>-->
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-admin-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-tool-runtime</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-tool-catalog</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-files-tools</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-share-tools</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mcp.nextcloud</groupId>
-            <artifactId>nextcloud-mcp-user-tools</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-http</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-admin-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-tool-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-tool-runtime</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-tool-catalog</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-files-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-share-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-user-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-comments-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-trash-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-versions-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-status-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mcp.nextcloud</groupId>
+                <artifactId>nextcloud-mcp-admin-tools</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
                 <version>${junit.jupiter.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
