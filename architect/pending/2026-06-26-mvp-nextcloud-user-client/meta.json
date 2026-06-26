@@ -1,0 +1,36 @@
+{
+  "id": "2026-06-26-mvp-nextcloud-user-client",
+  "title": "MVP Nextcloud User Client",
+  "status": "pending",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "tags": [
+    "mvp",
+    "nextcloud",
+    "client",
+    "webdav",
+    "ocs",
+    "priority-04"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-core-http-config",
+    "2026-06-26-mvp-files-share-user-tools"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "MVP child architect for the non-admin Nextcloud API client."
+  },
+  "resolutionOrder": 4,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the fourth MVP child architect to resolve."
+    }
+  ]
+}

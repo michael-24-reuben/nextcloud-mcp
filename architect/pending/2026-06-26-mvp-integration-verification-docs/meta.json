@@ -1,0 +1,35 @@
+{
+  "id": "2026-06-26-mvp-integration-verification-docs",
+  "title": "MVP Integration Verification Docs",
+  "status": "pending",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "tags": [
+    "mvp",
+    "verification",
+    "docs",
+    "config",
+    "priority-09"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-cli-caller",
+    "2026-06-26-mvp-spring-server-transport"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Final MVP child architect for end-to-end verification, examples, and documentation needed to call the MVP complete."
+  },
+  "resolutionOrder": 9,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the ninth MVP child architect to resolve."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "2026-06-26-mvp-core-http-config",
+  "title": "MVP Core HTTP Config",
+  "status": "pending",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "tags": [
+    "mvp",
+    "core",
+    "http",
+    "config",
+    "java",
+    "priority-02"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-build-foundation",
+    "2026-06-26-mvp-security-policy-baseline",
+    "2026-06-26-mvp-nextcloud-user-client"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Second MVP child architect for Spring-free primitives, HTTP transport, and external configuration."
+  },
+  "resolutionOrder": 2,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the second MVP child architect to resolve."
+    }
+  ]
+}

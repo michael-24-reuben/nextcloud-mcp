@@ -1,0 +1,37 @@
+{
+  "id": "2026-06-26-mvp-security-policy-baseline",
+  "title": "MVP Security Policy Baseline",
+  "status": "pending",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "tags": [
+    "mvp",
+    "security",
+    "policy",
+    "scopes",
+    "audit",
+    "priority-03"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-core-http-config",
+    "2026-06-26-mvp-mcp-tool-runtime",
+    "2026-06-26-mvp-files-share-user-tools"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "MVP child architect for account isolation, scope checks, secret masking, and delete-by-default behavior."
+  },
+  "resolutionOrder": 3,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the third MVP child architect to resolve."
+    }
+  ]
+}

@@ -11,14 +11,16 @@
 
 ## Future Child Architects
 
-- [ ] Create build-foundation child architect.
-- [ ] Create core/http/config child architect.
-- [ ] Create user Nextcloud client child architect.
-- [ ] Create MCP tool API/runtime child architect.
-- [ ] Create MVP files/share/user tools child architects.
-- [ ] Create CLI child architect.
-- [ ] Create Spring server transport child architect.
-- [ ] Create security hardening child architect.
+- [x] Create build-foundation child architect.
+- [x] Create core/http/config child architect.
+- [x] Create MVP security policy baseline child architect.
+- [x] Create user Nextcloud client child architect.
+- [x] Create MCP tool API/runtime child architect.
+- [x] Create MVP files/share/user tools child architect.
+- [x] Create CLI child architect.
+- [x] Create Spring server transport child architect.
+- [x] Create MVP integration verification/docs child architect.
+- [ ] Create post-MVP security hardening child architect if MVP policy work leaves deferred scope.
 - [ ] Create post-MVP capability child architects for trash, versions, comments, status, catalog, admin client, admin tools, and admin CLI.
 - [ ] Create packaging/config/docs child architect.
 

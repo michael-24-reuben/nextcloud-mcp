@@ -6,7 +6,7 @@
   "activatedAt": null,
   "resolvedAt": null,
   "archivedAt": null,
-  "updatedAt": "2026-06-26T03:38:35.9698151-04:00",
+  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
   "tags": [
     "architecture",
     "prd",
@@ -17,7 +17,17 @@
     "maven",
     "future"
   ],
-  "related": [],
+  "related": [
+    "2026-06-26-mvp-build-foundation",
+    "2026-06-26-mvp-core-http-config",
+    "2026-06-26-mvp-security-policy-baseline",
+    "2026-06-26-mvp-nextcloud-user-client",
+    "2026-06-26-mvp-mcp-tool-runtime",
+    "2026-06-26-mvp-files-share-user-tools",
+    "2026-06-26-mvp-cli-caller",
+    "2026-06-26-mvp-spring-server-transport",
+    "2026-06-26-mvp-integration-verification-docs"
+  ],
   "sourceReports": [],
   "origin": {
     "source": "chat",
@@ -32,6 +42,11 @@
       "at": "2026-06-26T03:38:35.9698151-04:00",
       "type": "CREATED",
       "note": "Created parent pending architecture record from the two blueprint files."
+    },
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "UPDATED",
+      "note": "Linked the MVP child architects that should be resolved before post-MVP work."
     }
   ]
 }

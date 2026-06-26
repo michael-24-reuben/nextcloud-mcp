@@ -1,0 +1,35 @@
+{
+  "id": "2026-06-26-mvp-build-foundation",
+  "title": "MVP Build Foundation",
+  "status": "pending",
+  "createdAt": "2026-06-26T03:55:14.4215697-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "tags": [
+    "mvp",
+    "build",
+    "maven",
+    "java",
+    "architecture",
+    "priority-01"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-core-http-config"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "First MVP child architect split from the parent Nextcloud MCP architecture record."
+  },
+  "resolutionOrder": 1,
+  "events": [
+    {
+      "at": "2026-06-26T03:55:14.4215697-04:00",
+      "type": "CREATED",
+      "note": "Created as the first MVP child architect to resolve."
+    }
+  ]
+}

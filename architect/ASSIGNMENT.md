@@ -1,8 +1,8 @@
 # Architect Assignment
 
 ## Assignment Status
-- assignmentStatus: pending architecture seed created
-- lastUpdatedAt: 2026-06-26T03:38:35.9698151-04:00
+- assignmentStatus: MVP child architects generated
+- lastUpdatedAt: 2026-06-26T03:55:14.4215697-04:00
 - updatedBy: Codex
 - currentBranch: master
 - expectedBranch: master
@@ -13,62 +13,65 @@
 ## Current Architect Entries
 - primary: architect/pending/2026-06-26-nextcloud-mcp-core-architecture
 - recentlyVerifiedResolved: none
-- pendingFollowUps: child architect entries for each implementation slice
+- pendingFollowUps: 2026-06-26-mvp-build-foundation, 2026-06-26-mvp-core-http-config, 2026-06-26-mvp-security-policy-baseline, 2026-06-26-mvp-nextcloud-user-client, 2026-06-26-mvp-mcp-tool-runtime, 2026-06-26-mvp-files-share-user-tools, 2026-06-26-mvp-cli-caller, 2026-06-26-mvp-spring-server-transport, 2026-06-26-mvp-integration-verification-docs
 - blockedBy: none
-- shouldNotTouch: Maven modules and source packages until the user creates or approves them
+- shouldNotTouch: Do not edit `pom.xml` until the existing dirty change is inspected; do not create modules unless the user has created or approved them.
 
 ## Current Objective
-- goal: Preserve the high-level architecture for a Java/Maven Nextcloud MCP server and use it as the parent record for future smaller architect entries.
-- completedSlices: Reviewed blueprint/project-structure.md and blueprint/nextcloud-api-model.md; created the core architect folders and parent pending entry.
-- nextSlice: Create one focused child architect entry for the first implementation slice after the user chooses or creates the target modules.
-- completionCriteria: Future child entries can be derived from this parent without relying on chat history or recreating the blueprint analysis.
+- goal: Resolve the MVP child architects first, in dependency order, before post-MVP capabilities.
+- completedSlices: Created nine pending MVP child architects and linked them from the parent architecture record.
+- nextSlice: Activate or implement `architect/pending/2026-06-26-mvp-build-foundation`.
+- completionCriteria: Each MVP child is moved through active to resolved with verification evidence before post-MVP child work begins.
 
 ## Last Run Summary
-- runEndedAt: 2026-06-26T03:38:35.9698151-04:00
-- workCompleted: Created architect lifecycle folders, root handoff files, reports registry, and parent pending architecture entry.
-- testsRun: none
-- testResult: not applicable; no project code changed
-- verificationNote: Re-read architect files and validated JSON after creation.
+- runEndedAt: 2026-06-26T03:55:14.4215697-04:00
+- workCompleted: Generated MVP child architect entries with meta, brief, plan, todo, and context files.
+- testsRun: JSON parse validation for all pending architect metadata.
+- testResult: passed.
+- verificationNote: No source or module files were intentionally changed by this run.
 - commitCreated: no
 
 ## Active Files
 
 | File | State | Reason |
 |---|---|---|
-| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/ | pending | Parent architecture record for future child architects. |
-| architect/HANDOFF.md | current | Detailed continuation context for future sessions. |
+| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/ | pending | Parent architecture record. |
+| architect/pending/2026-06-26-mvp-build-foundation/ | pending | First MVP child to resolve. |
+| architect/HANDOFF.md | current | Detailed continuation context. |
 
 ## Files Changed By This Run
 
 | File | State | Reason |
 |---|---|---|
-| architect/ASSIGNMENT.md | created | Compact current execution card. |
-| architect/HANDOFF.md | created | Persistent project architecture handoff. |
-| architect/reports/reports.registry.json | created | Empty live report registry. |
-| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/* | created | Parent pending architecture record. |
+| architect/ASSIGNMENT.md | updated | Points future work at the MVP child sequence. |
+| architect/HANDOFF.md | updated | Records MVP child order and dirty worktree note. |
+| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/meta.json | updated | Links MVP child entries. |
+| architect/pending/2026-06-26-nextcloud-mcp-core-architecture/todo.md | updated | Marks MVP child generation complete. |
+| architect/pending/2026-06-26-mvp-*/ | created | Pending MVP child architect records. |
 
 ## Unfinished Files
 
 | File | State | Remaining Work |
 |---|---|---|
-| none | n/a | No implementation files were started. |
+| pom.xml | dirty before this run | Inspect and preserve the existing user change before build-foundation edits. |
 
 ## Decisions Made
-- Decision: Keep this as a parent pending architect entry, not an active implementation entry.
-- Decision: Do not create Maven modules, Java packages, or application source directories in this pass.
+- Decision: Generate MVP child architects as `pending` entries because no implementation has started.
+- Decision: Resolve MVP child architects in the explicit `resolutionOrder` recorded in each `meta.json`.
+- Decision: Keep post-MVP features out of this first resolution sequence.
 
 ## Blockers
 - none
 
 ## Risks
-- Risk: The root POM currently has an empty `<modules>` block; child architects should reconcile module creation order with the blueprint before editing it.
+- Risk: Existing dirty `pom.xml` may affect the first build-foundation slice.
 
 ## Next Action
-Create a focused child architect entry for the first implementation slice, likely core/build-foundation, after the user creates or approves the target module layout.
+Activate `architect/pending/2026-06-26-mvp-build-foundation`, inspect the dirty `pom.xml`, and proceed only within the build-foundation scope.
 
 ## Verification Baseline
 
 ```powershell
 git -C 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp' status --short --branch
-Get-Content -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\pending\2026-06-26-nextcloud-mcp-core-architecture\meta.json' | ConvertFrom-Json | Out-Null
+Get-ChildItem -Recurse -Filter meta.json -LiteralPath 'J:\Users\jbeas\Repositories\Dev.java-2026\artifacts\nextcloud-mcp\architect\pending' | ForEach-Object { Get-Content -LiteralPath $_.FullName | ConvertFrom-Json | Out-Null }
 ```
