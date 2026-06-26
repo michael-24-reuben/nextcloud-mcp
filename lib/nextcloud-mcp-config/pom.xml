@@ -20,6 +20,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
