@@ -1,0 +1,32 @@
+{
+  "id": "2026-06-26-admin-occ-bridge",
+  "title": "Admin OCC Bridge",
+  "status": "pending",
+  "createdAt": "2026-06-26T15:30:00-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "tags": [
+    "admin",
+    "occ",
+    "critical",
+    "future"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-admin-api-architecture",
+    "2026-06-26-admin-tools-policy-surface"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "blueprint",
+    "summary": "Created from OCC bridge section in blueprint/nextcloud-admin-api-model.md."
+  },
+  "events": [
+    {
+      "at": "2026-06-26T15:30:00-04:00",
+      "type": "CREATED",
+      "note": "Created optional guarded OCC bridge architect."
+    }
+  ]
+}

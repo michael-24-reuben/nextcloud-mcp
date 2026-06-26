@@ -1,0 +1,32 @@
+{
+  "id": "2026-06-26-admin-auth-client-foundation",
+  "title": "Admin Auth Client Foundation",
+  "status": "pending",
+  "createdAt": "2026-06-26T15:30:00-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "tags": [
+    "admin",
+    "auth",
+    "client",
+    "foundation"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-admin-api-architecture",
+    "2026-06-26-nextcloud-mcp-core-architecture"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "blueprint",
+    "summary": "Created from admin API connection model and wrapper layout in blueprint/nextcloud-admin-api-model.md."
+  },
+  "events": [
+    {
+      "at": "2026-06-26T15:30:00-04:00",
+      "type": "CREATED",
+      "note": "Created admin foundation child architect."
+    }
+  ]
+}

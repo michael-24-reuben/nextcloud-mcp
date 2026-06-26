@@ -1,0 +1,35 @@
+{
+  "id": "2026-06-26-admin-tools-policy-surface",
+  "title": "Admin Tools Policy Surface",
+  "status": "pending",
+  "createdAt": "2026-06-26T15:30:00-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "tags": [
+    "admin",
+    "tools",
+    "policy",
+    "security"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-admin-api-architecture",
+    "2026-06-26-admin-users-provisioning",
+    "2026-06-26-admin-groups-subadmins",
+    "2026-06-26-admin-apps-provisioning",
+    "2026-06-26-admin-occ-bridge"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "blueprint",
+    "summary": "Created from admin risk-level table and tool exposure implications in blueprint/nextcloud-admin-api-model.md."
+  },
+  "events": [
+    {
+      "at": "2026-06-26T15:30:00-04:00",
+      "type": "CREATED",
+      "note": "Created admin tools policy child architect."
+    }
+  ]
+}
