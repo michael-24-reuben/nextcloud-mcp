@@ -6,7 +6,7 @@
   "activatedAt": null,
   "resolvedAt": null,
   "archivedAt": null,
-  "updatedAt": "2026-06-26T11:25:28.2145637-04:00",
+  "updatedAt": "2026-06-26T12:08:50.4424717-04:00",
   "tags": [
     "architecture",
     "prd",
@@ -62,6 +62,11 @@
       "at": "2026-06-26T11:25:28.2145637-04:00",
       "type": "UPDATED",
       "note": "Resolved the fourth MVP child architect: non-admin Nextcloud user client."
+    },
+    {
+      "at": "2026-06-26T12:08:50.4424717-04:00",
+      "type": "UPDATED",
+      "note": "Resolved the fifth MVP child architect: framework-neutral MCP tool API/runtime."
     }
   ]
 }

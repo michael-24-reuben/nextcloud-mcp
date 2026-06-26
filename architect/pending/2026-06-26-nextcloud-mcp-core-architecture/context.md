@@ -104,3 +104,10 @@ Docker/release packaging
 - Do not implement destructive file/share/admin tools without policy checks and verification coverage.
 - Do not rely on chat history for project ordering; use this parent architect and the blueprint files.
 - If the user creates modules manually, child architects should inspect the actual layout before editing POMs or source.
+
+## Resolved Runtime Baseline
+
+- `lib/nextcloud-mcp-tool-api` owns framework-neutral descriptors, schemas, invocations, results, and handlers.
+- `lib/nextcloud-mcp-tool-runtime` owns registry, validation, dispatch, policy interception, audit emission, and argument mapping.
+- Future transports should call the runtime instead of duplicating list/invoke behavior.
+- Future concrete tools should expose `ToolDescriptor` plus `ToolHandler` registrations.

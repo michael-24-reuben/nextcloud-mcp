@@ -22,6 +22,7 @@
 - [x] Create user Nextcloud client child architect.
 - [x] Resolve user Nextcloud client child architect.
 - [x] Create MCP tool API/runtime child architect.
+- [x] Resolve MCP tool API/runtime child architect.
 - [x] Create MVP files/share/user tools child architect.
 - [x] Create CLI child architect.
 - [x] Create Spring server transport child architect.
