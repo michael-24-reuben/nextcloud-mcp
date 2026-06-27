@@ -14,7 +14,7 @@ Configuration model, loading, secret resolution, and validation.
 ## Rules
 
 - Account `baseUrl` must be absolute.
-- Account `username` and `appPassword` are required.
+- Account `accountName` and `appPassword` are required for local env records; YAML config still maps the login name to `username`.
 - Admin accounts must be explicitly enabled before use.
 - Secrets should stay as references until resolved by the runtime path that needs them.
 
