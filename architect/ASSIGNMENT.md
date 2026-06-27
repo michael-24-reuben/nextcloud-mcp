@@ -1,78 +1,73 @@
 # Architect Assignment
 
 ## Assignment Status
-- assignmentStatus: MVP Spring server transport resolved; continue final MVP verification/docs
-- lastUpdatedAt: 2026-06-27T01:02:26-04:00
+- assignmentStatus: MVP integration verification docs resolved
+- lastUpdatedAt: 2026-06-27T15:41:28-04:00
 - updatedBy: Codex
 - currentBranch: master
 - expectedBranch: master
 - objectiveId: 2026-06-26-mvp-integration-verification-docs
 - objectiveTitle: MVP Integration Verification Docs
-- objectiveStatus: pending
+- objectiveStatus: resolved
 
 ## Current Architect Entries
-- primary: architect/pending/2026-06-26-mvp-integration-verification-docs
-- recentlyVerifiedResolved: architect/resolved/2026-06-26-mvp-spring-server-transport, architect/resolved/2026-06-26-mvp-cli-caller
-- pendingFollowUps: 2026-06-26-mvp-integration-verification-docs
+- primary: architect/resolved/2026-06-26-mvp-integration-verification-docs
+- recentlyVerifiedResolved: architect/resolved/2026-06-26-mvp-integration-verification-docs, architect/resolved/2026-06-26-mvp-spring-server-transport, architect/resolved/2026-06-26-mvp-cli-caller
+- pendingFollowUps: none
 - blockedBy: none
 - shouldNotTouch: Preserve unrelated user changes and `scratch/callout/calling-to-michael.wav`; do not move/delete the generated root Spring scaffold unless a later slice explicitly handles it.
 
 ## Current Objective
-- goal: Finish MVP by documenting and verifying the integrated CLI/server/tool path.
-- completedSlices: MVP build foundation, core HTTP/config, security policy baseline, user client, tool runtime, files/share/user tools, admin API architecture/resolutions, MVP CLI caller, and MVP Spring server transport.
-- nextSlice: Activate and implement `architect/pending/2026-06-26-mvp-integration-verification-docs`.
-- completionCriteria: Final MVP verification/docs slice reaches `resolved/` with commands, endpoint map, run instructions, and known live-environment caveats.
+- goal: MVP verification documentation is complete and preserved in docs plus the resolved architect record.
+- completedSlices: MVP build foundation, core HTTP/config, security policy baseline, user client, tool runtime, files/share/user tools, admin API architecture/resolutions, MVP CLI caller, MVP Spring server transport, and MVP integration verification docs.
+- nextSlice: Choose the next post-MVP objective before continuing implementation.
+- completionCriteria: Completed for this slice.
 
 ## Last Run Summary
-- runEndedAt: 2026-06-27T01:02:26-04:00
-- workCompleted: Implemented the Spring Boot server transport in `app/nextcloud-mcp-server` with REST and minimal JSON-RPC endpoints over the existing runtime.
-- testsRun: focused server reactor; full reactor with live smoke flags disabled; metadata parse check; diff whitespace check; local Spring Boot launch and `/health` smoke.
-- testResult: passed for focused and non-live full verification.
-- verificationNote: Plain full `.\mvnw.cmd test` failed only in the existing live SDK smoke test because `https://alphasunny11-07.tail93ea23.ts.net/ocs/v1.php/cloud/user` returned HTTP 502 after the server module had already passed. Local server is running at `http://127.0.0.1:8080`; `/health` returned `{"status":"UP","configLoaded":false}`.
+- runEndedAt: 2026-06-27T15:41:28-04:00
+- workCompleted: Added `docs/verification.md`, routed it from `docs/README.md`, moved the final MVP verification/docs architect to `resolved/`, and copied the docs verification file into the resolved entry.
+- testsRun: docs readback; secret-pattern scan; `git diff --check -- docs\README.md docs\verification.md`; architect metadata parse.
+- testResult: passed for documentation checks.
+- verificationNote: No Maven tests were run for this docs-only lifecycle update. The copied verification doc records the prior passed CLI/server/non-live reactor commands and the known live HTTP 502 caveat.
 - commitCreated: no
 
 ## Active Files
 
 | File | State | Reason |
 |---|---|---|
-| architect/resolved/2026-06-26-mvp-spring-server-transport/ | resolved | Server transport slice completed. |
-| app/nextcloud-mcp-server/ | updated | Spring transport implementation and tests. |
-| architect/pending/2026-06-26-mvp-integration-verification-docs/ | pending | Next and final MVP slice. |
+| architect/resolved/2026-06-26-mvp-integration-verification-docs/ | resolved | Final MVP verification/docs slice completed. |
+| docs/verification.md | added | Durable MVP verification notes. |
+| docs/README.md | updated | Routes future agents to verification notes. |
 
 ## Files Changed By This Run
 
 | File | State | Reason |
 |---|---|---|
-| app/nextcloud-mcp-server/pom.xml | updated | Added internal module dependencies needed by the server runtime. |
-| app/nextcloud-mcp-server/src/main/resources/application.yaml | updated | Added `nextcloud.mcp.*` config bindings. |
-| app/nextcloud-mcp-server/src/main/java/org/mcp/nextcloud/server/ | added/updated | Added server properties, configuration, runtime service, controllers, DTOs, and error handling. |
-| app/nextcloud-mcp-server/src/test/java/org/mcp/nextcloud/server/NextcloudMcpRuntimeServiceTest.java | added | Added fake-HTTP endpoint/runtime tests. |
-| architect/resolved/2026-06-26-mvp-spring-server-transport/ | moved/updated | Resolved server transport architect record. |
-| architect/ASSIGNMENT.md | updated | Points to final integration/docs next. |
-| architect/HANDOFF.md | updated | Records server completion and verification state. |
+| docs/README.md | updated | Added `verification.md` to the docs navigation contract. |
+| docs/verification.md | added | Captures MVP verification commands, config rules, route inventory, tool expectations, and caveats. |
+| architect/resolved/2026-06-26-mvp-integration-verification-docs/ | moved/updated | Final MVP docs architect record resolved; includes copied verification document. |
+| architect/ASSIGNMENT.md | updated | Records the final MVP docs slice as resolved. |
+| architect/HANDOFF.md | updated | Records the final MVP docs slice as resolved. |
 
 ## Unfinished Files
 
 | File | State | Remaining Work |
 |---|---|---|
-| architect/pending/2026-06-26-mvp-integration-verification-docs/ | pending | Final MVP verification/docs not started. |
+| none | n/a | No unfinished work remains for this resolved slice. |
 
 ## Decisions Made
-- Decision: Server controllers delegate to `NextcloudMcpRuntimeService`; they do not duplicate tool behavior.
-- Decision: Descriptor listing remains local-only and does not resolve app-password secrets.
-- Decision: Tool calls and account tests resolve the current OCS user id before invocation, matching the CLI path.
-- Decision: Admin controllers and WebSocket transport remain out of scope for this MVP server slice.
-- Decision: Startup config validation is opt-in through `nextcloud.mcp.validate-on-startup`; otherwise config errors are endpoint responses.
+- Decision: `docs/verification.md` is the durable docs-side verification note, and the resolved architect entry keeps a copy as `verification.md`.
+- Decision: Stale runtime captures are documented as a caveat instead of being refreshed from running server processes that have not been restarted.
 
 ## Blockers
 - none
 
 ## Risks
 - Risk: Live Nextcloud smoke tests are environment-sensitive; the latest live-enabled full reactor saw HTTP 502 from the tailnet host.
-- Risk: `/mcp` JSON-RPC support is MVP-minimal and not a complete protocol compliance layer.
+- Risk: Local server captures may lag current source until the running server is rebuilt and restarted.
 
 ## Next Action
-Activate `architect/pending/2026-06-26-mvp-integration-verification-docs` and create final MVP verification/docs around the implemented CLI and Spring server endpoints.
+Pick the next post-MVP architect objective before making more implementation changes.
 
 ## Local Server
 - url: http://127.0.0.1:8080
