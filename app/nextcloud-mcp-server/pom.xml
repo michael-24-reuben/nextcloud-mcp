@@ -3,33 +3,55 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.mcp.nextcloud</groupId>
+        <artifactId>nextcloud-mcp</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <groupId>org.mcp.nextcloud</groupId>
+
     <artifactId>nextcloud-mcp-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+
     <name>nextcloud-mcp-server</name>
     <description>nextcloud-mcp-server</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
-    <properties>
-        <java.version>25</java.version>
-    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-tool-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-tool-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-files-tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-share-tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-user-tools</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -41,6 +63,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -65,27 +92,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <annotationProcessorPaths>
-                                <path>
-                                    <groupId>org.springframework.boot</groupId>
-                                    <artifactId>spring-boot-configuration-processor</artifactId>
-                                </path>
-                            </annotationProcessorPaths>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
