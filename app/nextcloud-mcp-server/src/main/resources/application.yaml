@@ -1,6 +1,51 @@
 spring:
   application:
     name: nextcloud-mcp-server
+
+  web:
+    # Error response behavior
+    error:
+      include-message: always
+      include-binding-errors: always
+      include-stacktrace: always
+      include-exception: true
+      include-path: always
+
+server:
+  port: 8765
+
+  # Bind address
+  # 0.0.0.0 = reachable from other devices on LAN/Tailscale/container network
+  # 127.0.0.1 = local machine only
+  address: 0.0.0.0
+
+  # Base path for all HTTP endpoints
+  servlet:
+    context-path: /
+
+  # Graceful shutdown support
+  shutdown: graceful
+
+  # Compression for HTTP responses
+  compression:
+    enabled: true
+    mime-types:
+      - application/json
+      - text/plain
+      - text/html
+      - text/css
+      - application/javascript
+    min-response-size: 1024
+
+  # Tomcat-specific settings, if using default embedded Tomcat
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    connection-timeout: 20s
+    max-connections: 8192
+    accept-count: 100
+
 nextcloud:
   mcp:
     config-path: ${NEXTCLOUD_MCP_CONFIG:config/server.yaml}
