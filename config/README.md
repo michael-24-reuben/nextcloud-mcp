@@ -10,8 +10,7 @@ Keep process and tool policy data in `config/server.yaml`:
 
 Keep user/account data in `config/db/u/usr-*.env`:
 
-- Nextcloud account id
-- login username
+- Nextcloud account name
 - base URL
 - app password
 - display name and email for future provisioning flows

@@ -6,9 +6,8 @@ Supported fields:
 
 ```dotenv
 ACCOUNT_KEY=temporary
-ACCOUNT_ID=temporary
+ACCOUNT_NAME=temporary
 BASE_URL=https://cloud.example.com
-USERNAME=login-name
 APP_PASSWORD=nextcloud-app-password
 DISPLAY_NAME=Temporary User
 EMAIL=temporary@example.com
