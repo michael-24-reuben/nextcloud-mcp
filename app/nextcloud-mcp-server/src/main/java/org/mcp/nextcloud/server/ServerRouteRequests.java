@@ -3,10 +3,9 @@ package org.mcp.nextcloud.server;
 import java.util.List;
 
 record AccountCreateRequest(
-        String accountId,
-        String nextcloudAccountId,
+        String accountKey,
+        String accountName,
         String baseUrl,
-        String username,
         String appPassword,
         String displayName,
         String email,
@@ -17,10 +16,8 @@ record AccountCreateRequest(
 }
 
 record AccountPatchRequest(
-        String accountId,
-        String nextcloudAccountId,
+        String accountName,
         String baseUrl,
-        String username,
         String displayName,
         String email,
         Boolean defaultAccount,

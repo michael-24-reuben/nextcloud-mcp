@@ -86,10 +86,9 @@ class NextcloudMcpRuntimeServiceTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "accountId": "member",
-                                  "nextcloudAccountId": "member-id",
+                                  "accountKey": "member",
+                                  "accountName": "member-login",
                                   "baseUrl": "https://cloud.example.com",
-                                  "username": "member-login",
                                   "appPassword": "member-app-password",
                                   "displayName": "Member User",
                                   "email": "member@example.com",
@@ -105,15 +104,14 @@ class NextcloudMcpRuntimeServiceTest {
                 .getContentAsString();
 
         JsonNode root = objectMapper.readTree(body);
-        assertEquals("member", root.path("accountId").asText());
-        assertEquals("member-id", root.path("nextcloudAccountId").asText());
-        assertEquals("member-login", root.path("username").asText());
+        assertEquals("member", root.path("accountKey").asText());
+        assertEquals("member-login", root.path("accountName").asText());
         assertTrue(root.path("hasAppPassword").asBoolean());
         assertFalse(root.has("appPassword"));
 
         Path env = config.getParent().resolve("db").resolve("u").resolve("usr-member.env");
         String envContent = Files.readString(env, StandardCharsets.UTF_8);
-        assertTrue(envContent.contains("USERNAME=member-login"));
+        assertTrue(envContent.contains("ACCOUNT_NAME=member-login"));
         assertTrue(envContent.contains("APP_PASSWORD=member-app-password"));
     }
 
@@ -149,7 +147,7 @@ class NextcloudMcpRuntimeServiceTest {
         String body = mvc.perform(post("/api/v1/accounts/test")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"accountId":"local"}
+                                {"accountKey":"local"}
                                 """))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -158,7 +156,8 @@ class NextcloudMcpRuntimeServiceTest {
 
         JsonNode root = objectMapper.readTree(body);
         assertTrue(root.path("connected").asBoolean());
-        assertEquals("local", root.path("accountId").asText());
+        assertEquals("local", root.path("accountKey").asText());
+        assertEquals("temporary", root.path("accountName").asText());
         assertEquals("temporary", root.path("userId").asText());
         assertEquals(1, http.requests().size());
         assertEquals("https://cloud.example.com/ocs/v1.php/cloud/user", http.requests().getFirst().uri().toString());
@@ -176,7 +175,7 @@ class NextcloudMcpRuntimeServiceTest {
         String body = mvc.perform(post("/api/v1/accounts/test")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"accountId":"local"}
+                                {"accountKey":"local"}
                                 """))
                 .andExpect(status().isBadGateway())
                 .andReturn()
