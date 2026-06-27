@@ -16,7 +16,7 @@
         <developer/>
     </developers>
     <modules>
-
+        <module>app/nextcloud-mcp-server</module>
         <module>lib/nextcloud-mcp-core</module>
         <module>lib/nextcloud-mcp-config</module>
         <module>lib/nextcloud-mcp-http</module>
