@@ -34,6 +34,7 @@
         <module>tools/nextcloud-mcp-versions-tools</module>
         <module>tools/nextcloud-mcp-status-tools</module>
         <module>tools/nextcloud-mcp-admin-tools</module>
+        <module>cli/nextcloud-mcp-cli</module>
     </modules>
     <scm>
         <connection/>
