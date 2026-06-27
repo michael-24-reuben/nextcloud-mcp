@@ -1,0 +1,487 @@
+{
+  "tools": [
+    {
+      "name": "nextcloud.files.copy",
+      "description": "Copy a file or folder.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Source file or folder path.",
+          "name": "fromPath",
+          "type": "string"
+        },
+        {
+          "required": true,
+          "description": "Destination file or folder path.",
+          "name": "toPath",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.delete",
+      "description": "Delete a file or folder.",
+      "destructive": true,
+      "requiredScopes": [
+        "nextcloud.files.delete"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "File or folder path to delete.",
+          "name": "path",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.download",
+      "description": "Download a file as base64 content.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.read"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "File path to download.",
+          "name": "path",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.favorite",
+      "description": "Set or clear the favorite flag.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "File or folder path.",
+          "name": "path",
+          "type": "string"
+        },
+        {
+          "required": true,
+          "description": "Desired favorite flag.",
+          "name": "favorite",
+          "type": "boolean"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.list",
+      "description": "List files in a Nextcloud folder.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.read"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Folder path to list.",
+          "name": "path",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.mkdir",
+      "description": "Create a folder.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Folder path to create.",
+          "name": "path",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.move",
+      "description": "Move a file or folder.",
+      "destructive": true,
+      "requiredScopes": [
+        "nextcloud.files.write",
+        "nextcloud.files.delete"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Source file or folder path.",
+          "name": "fromPath",
+          "type": "string"
+        },
+        {
+          "required": true,
+          "description": "Destination file or folder path.",
+          "name": "toPath",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.search",
+      "description": "Search files by display name.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.read"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Search query.",
+          "name": "query",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.stat",
+      "description": "Read metadata for a Nextcloud file or folder.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.read"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "File or folder path to inspect.",
+          "name": "path",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.files.upload",
+      "description": "Upload text or base64 content to a file path.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.files.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Destination file path.",
+          "name": "path",
+          "type": "string"
+        },
+        {
+          "required": true,
+          "description": "Text content or base64 bytes.",
+          "name": "content",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Set true when content is base64 encoded.",
+          "name": "base64",
+          "type": "boolean"
+        }
+      ],
+      "metadata": {
+        "category": "files"
+      }
+    },
+    {
+      "name": "nextcloud.sharees.recommended",
+      "description": "List recommended share recipients.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.read"
+      ],
+      "parameters": [
+        {
+          "required": false,
+          "description": "Nextcloud item type; defaults to file.",
+          "name": "itemType",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": true,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.sharees.search",
+      "description": "Search share recipients.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.read"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Sharee search query.",
+          "name": "query",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Nextcloud item type; defaults to file.",
+          "name": "itemType",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Optional result page.",
+          "name": "page",
+          "type": "integer"
+        },
+        {
+          "required": false,
+          "description": "Optional page size.",
+          "name": "perPage",
+          "type": "integer"
+        }
+      ],
+      "metadata": {
+        "deferred": false,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.shares.create",
+      "description": "Create a share.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Path to share.",
+          "name": "path",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Share type: public_link, user, group, email, remote, or circle.",
+          "name": "shareType",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "User, group, email, remote, or circle target.",
+          "name": "shareWith",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Bitmask permissions; defaults to read.",
+          "name": "permissions",
+          "type": "integer"
+        },
+        {
+          "required": false,
+          "description": "Allow public upload for folder shares.",
+          "name": "publicUpload",
+          "type": "boolean"
+        },
+        {
+          "required": false,
+          "description": "Optional share password.",
+          "name": "password",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Optional expiration date.",
+          "name": "expireDate",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Optional recipient note.",
+          "name": "note",
+          "type": "string"
+        },
+        {
+          "required": false,
+          "description": "Optional share label.",
+          "name": "label",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": false,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.shares.delete",
+      "description": "Delete a share by id.",
+      "destructive": true,
+      "requiredScopes": [
+        "nextcloud.shares.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Share id to delete.",
+          "name": "shareId",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": false,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.shares.get",
+      "description": "Get one share by id.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.read"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Share id to read.",
+          "name": "shareId",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": true,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.shares.list",
+      "description": "List shares visible to the authenticated user.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.read"
+      ],
+      "parameters": [
+        {
+          "required": false,
+          "description": "Optional file path filter.",
+          "name": "path",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": false,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.shares.send_email",
+      "description": "Send a share notification email.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Share id to notify.",
+          "name": "shareId",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": true,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.shares.update",
+      "description": "Update an existing share.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.shares.write"
+      ],
+      "parameters": [
+        {
+          "required": true,
+          "description": "Share id to update.",
+          "name": "shareId",
+          "type": "string"
+        }
+      ],
+      "metadata": {
+        "deferred": true,
+        "category": "shares"
+      }
+    },
+    {
+      "name": "nextcloud.user.capabilities",
+      "description": "Read server capabilities visible to the authenticated user.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.user.read"
+      ],
+      "parameters": [],
+      "metadata": {
+        "category": "user"
+      }
+    },
+    {
+      "name": "nextcloud.user.me",
+      "description": "Read the authenticated Nextcloud user.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.user.read"
+      ],
+      "parameters": [],
+      "metadata": {
+        "category": "user"
+      }
+    },
+    {
+      "name": "nextcloud.user.metadata",
+      "description": "Read self metadata for the authenticated account.",
+      "destructive": false,
+      "requiredScopes": [
+        "nextcloud.user.read"
+      ],
+      "parameters": [],
+      "metadata": {
+        "category": "user"
+      }
+    }
+  ]
+}

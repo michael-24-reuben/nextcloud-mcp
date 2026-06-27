@@ -1,0 +1,19 @@
+{
+  "accounts": [
+    {
+      "accountId": "temporary",
+      "baseUrl": "https://alphasunny11-07.tail93ea23.ts.net",
+      "username": "tempo",
+      "defaultAccount": true,
+      "admin": false,
+      "enabled": true,
+      "scopes": [
+        "nextcloud.files.read",
+        "nextcloud.files.write",
+        "nextcloud.shares.read",
+        "nextcloud.shares.write",
+        "nextcloud.user.read"
+      ]
+    }
+  ]
+}
