@@ -4,9 +4,8 @@ import java.util.List;
 
 public record LocalUserAccountRecord(
         String accountKey,
-        String accountId,
+        String accountName,
         String baseUrl,
-        String username,
         String appPassword,
         String displayName,
         String email,
@@ -20,9 +19,9 @@ public record LocalUserAccountRecord(
 
     public NextcloudAccountConfig accountConfig() {
         return new NextcloudAccountConfig(
-                accountId,
+                accountName,
                 baseUrl,
-                username,
+                accountName,
                 appPassword,
                 defaultAccount,
                 admin,

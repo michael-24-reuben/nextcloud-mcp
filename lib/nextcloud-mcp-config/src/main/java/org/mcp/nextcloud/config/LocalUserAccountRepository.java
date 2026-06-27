@@ -74,9 +74,8 @@ public final class LocalUserAccountRepository {
                 .orElseThrow(() -> new IllegalArgumentException("account not found: " + accountKey));
         LocalUserAccountRecord updated = new LocalUserAccountRecord(
                 current.accountKey(),
-                current.accountId(),
+                current.accountName(),
                 current.baseUrl(),
-                current.username(),
                 current.appPassword(),
                 current.displayName(),
                 current.email(),
@@ -94,21 +93,19 @@ public final class LocalUserAccountRepository {
         }
         String fileKey = accountKeyFromFile(path);
         String accountKey = value(values, "ACCOUNT_KEY").orElse(fileKey);
-        String accountId = value(values, "ACCOUNT_ID")
-                .or(() -> value(values, "ACCOUNT_NAME"))
-                .orElse(fileKey);
-        String username = value(values, "USERNAME")
+        String accountName = value(values, "ACCOUNT_NAME")
+                .or(() -> value(values, "USERNAME"))
                 .or(() -> value(values, "LOGIN_NAME"))
                 .or(() -> value(values, "LOGIN"))
-                .orElse(accountId);
+                .or(() -> value(values, "ACCOUNT_ID"))
+                .orElse(fileKey);
         String appPassword = value(values, "APP_PASSWORD")
                 .or(() -> value(values, "APP_PASS"))
                 .orElse(null);
         return Optional.of(new LocalUserAccountRecord(
                 accountKey,
-                accountId,
+                accountName,
                 value(values, "BASE_URL").orElse(null),
-                username,
                 appPassword,
                 value(values, "DISPLAY_NAME").orElse(null),
                 value(values, "EMAIL").orElse(null),
@@ -131,9 +128,8 @@ public final class LocalUserAccountRepository {
             LocalUserAccountRecord current = existing.get();
             write(configPath, new LocalUserAccountRecord(
                     current.accountKey(),
-                    current.accountId(),
+                    current.accountName(),
                     current.baseUrl(),
-                    current.username(),
                     current.appPassword(),
                     current.displayName(),
                     current.email(),
@@ -165,9 +161,8 @@ public final class LocalUserAccountRepository {
     private static String render(LocalUserAccountRecord record) {
         Map<String, String> values = new LinkedHashMap<>();
         put(values, "ACCOUNT_KEY", requireAccountKey(record.accountKey()));
-        put(values, "ACCOUNT_ID", record.accountId());
+        put(values, "ACCOUNT_NAME", record.accountName());
         put(values, "BASE_URL", record.baseUrl());
-        put(values, "USERNAME", record.username());
         put(values, "APP_PASSWORD", record.appPassword());
         put(values, "DISPLAY_NAME", record.displayName());
         put(values, "EMAIL", record.email());

@@ -81,4 +81,36 @@ class LocalUserAccountStoreTest {
         assertTrue(loaded.admin().enabled());
         assertEquals("admin", loaded.admin().accountId());
     }
+
+    @Test
+    void legacyUserEnvPrefersUsernameAsAccountName() throws Exception {
+        Path config = tempDir.resolve("server.yaml");
+        Path users = tempDir.resolve("db").resolve("u");
+        Files.createDirectories(users);
+        Files.writeString(config, """
+                server:
+                  enabled: true
+                  host: 127.0.0.1
+                  port: 8080
+                admin:
+                  enabled: false
+                """, StandardCharsets.UTF_8);
+        Files.writeString(users.resolve("usr-legacy.env"), """
+                ACCOUNT_KEY=legacy
+                ACCOUNT_ID=profile-id
+                USERNAME=real-login
+                BASE_URL=https://cloud.example.com
+                APP_PASSWORD=local-app-password
+                DEFAULT_ACCOUNT=true
+                ADMIN=false
+                ENABLED=true
+                SCOPES=nextcloud.user.read
+                """, StandardCharsets.UTF_8);
+
+        NextcloudMcpConfig loaded = new YamlConfigLoader().load(config);
+
+        NextcloudAccountConfig account = loaded.accounts().get("legacy");
+        assertEquals("real-login", account.id());
+        assertEquals("real-login", account.username());
+    }
 }
