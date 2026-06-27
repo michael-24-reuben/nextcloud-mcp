@@ -1,0 +1,31 @@
+server:
+  enabled: true
+  host: 127.0.0.1
+  port: 8080
+
+tools:
+  tools:
+    nextcloud.files:
+      enabled: true
+      requiredScopes:
+        - nextcloud.files.read
+      destructive: false
+    nextcloud.shares:
+      enabled: true
+      requiredScopes:
+        - nextcloud.shares.read
+      destructive: false
+    nextcloud.user:
+      enabled: true
+      requiredScopes:
+        - nextcloud.user.read
+      destructive: false
+    nextcloud.admin:
+      enabled: false
+      requiredScopes:
+        - nextcloud.admin.users.read
+      destructive: true
+
+admin:
+  enabled: false
+  accountId:
