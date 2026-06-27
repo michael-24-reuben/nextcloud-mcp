@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-mvp-integration-verification-docs",
   "title": "MVP Integration Verification Docs",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T03:55:14.4215697-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-27T15:41:28-04:00",
+  "resolvedAt": "2026-06-27T15:41:28-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T03:55:14.4215697-04:00",
+  "updatedAt": "2026-06-27T15:41:28-04:00",
   "tags": [
     "mvp",
     "verification",
@@ -30,6 +30,11 @@
       "at": "2026-06-26T03:55:14.4215697-04:00",
       "type": "CREATED",
       "note": "Created as the ninth MVP child architect to resolve."
+    },
+    {
+      "at": "2026-06-27T15:41:28-04:00",
+      "type": "RESOLVED",
+      "note": "Resolved after docs/verification.md captured the final MVP verification commands, route inventory, runtime config notes, and known live-environment caveats."
     }
   ]
 }
