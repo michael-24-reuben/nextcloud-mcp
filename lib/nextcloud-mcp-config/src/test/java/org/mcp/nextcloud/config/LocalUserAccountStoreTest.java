@@ -30,9 +30,8 @@ class LocalUserAccountStoreTest {
                 """, StandardCharsets.UTF_8);
         Files.writeString(users.resolve("usr-temporary.env"), """
                 ACCOUNT_KEY=temporary
-                ACCOUNT_ID=temporary
+                ACCOUNT_NAME=temporary
                 BASE_URL=https://cloud.example.com
-                USERNAME=tempo
                 APP_PASSWORD=local-app-password
                 DEFAULT_ACCOUNT=true
                 ADMIN=false
@@ -46,7 +45,7 @@ class LocalUserAccountStoreTest {
         NextcloudAccountConfig account = loaded.accounts().get("temporary");
         assertEquals("temporary", account.id());
         assertEquals("https://cloud.example.com", account.baseUrl());
-        assertEquals("tempo", account.username());
+        assertEquals("temporary", account.username());
         assertEquals("local-app-password", account.appPassword());
         assertTrue(account.defaultAccount());
         assertFalse(account.admin());
@@ -69,9 +68,8 @@ class LocalUserAccountStoreTest {
                   enabled: false
                 """, StandardCharsets.UTF_8);
         Files.writeString(users.resolve("usr-admin.env"), """
-                ACCOUNT_ID=admin
+                ACCOUNT_NAME=admin
                 BASE_URL=https://cloud.example.com
-                USERNAME=admin
                 APP_PASSWORD=local-admin-password
                 ADMIN=true
                 ENABLED=true

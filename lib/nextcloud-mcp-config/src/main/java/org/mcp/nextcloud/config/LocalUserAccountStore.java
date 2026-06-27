@@ -49,12 +49,8 @@ public final class LocalUserAccountStore {
         }
         String fileKey = accountKeyFromFile(path);
         String accountKey = value(values, "ACCOUNT_KEY").orElse(fileKey);
-        String accountId = value(values, "ACCOUNT_ID").orElse(fileKey);
+        String accountName = value(values, "ACCOUNT_NAME").orElse(fileKey);
         String baseUrl = value(values, "BASE_URL").orElse(null);
-        String username = value(values, "USERNAME")
-                .or(() -> value(values, "LOGIN_NAME"))
-                .or(() -> value(values, "LOGIN"))
-                .orElse(accountId);
         String appPassword = value(values, "APP_PASSWORD")
                 .or(() -> value(values, "APP_PASS"))
                 .orElse(null);
@@ -63,9 +59,9 @@ public final class LocalUserAccountStore {
         boolean enabled = bool(values, "ENABLED", true).orElse(true);
         List<String> scopes = csv(values.get("SCOPES"));
         NextcloudAccountConfig account = new NextcloudAccountConfig(
-                accountId,
+                accountName,
                 baseUrl,
-                username,
+                accountName,
                 appPassword,
                 defaultAccount,
                 admin,
