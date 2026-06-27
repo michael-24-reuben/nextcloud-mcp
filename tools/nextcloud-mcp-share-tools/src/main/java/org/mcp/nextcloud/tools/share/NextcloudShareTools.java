@@ -10,6 +10,7 @@ import org.mcp.nextcloud.client.ShareCreateRequest;
 import org.mcp.nextcloud.client.ShareInfo;
 import org.mcp.nextcloud.client.SharePermission;
 import org.mcp.nextcloud.client.ShareType;
+import org.mcp.nextcloud.client.ShareUpdateRequest;
 import org.mcp.nextcloud.client.Sharee;
 import org.mcp.nextcloud.core.id.ToolId;
 import org.mcp.nextcloud.core.result.ErrorResult;
@@ -37,9 +38,9 @@ public final class NextcloudShareTools {
                 tool("nextcloud.shares.list", "List shares visible to the authenticated user.", false, Set.of(SHARES_READ),
                         params(optionalString("path", "Optional file path filter.")),
                         invocation -> shares(nextcloud.shares().listShares(optionalStringArg(invocation, "path"))), false),
-                deferred("nextcloud.shares.get", "Get one share by id.", false, Set.of(SHARES_READ),
+                tool("nextcloud.shares.get", "Get one share by id.", false, Set.of(SHARES_READ),
                         params(requiredString("shareId", "Share id to read.")),
-                        "NextcloudSharesClient does not expose get-share yet."),
+                        invocation -> share(nextcloud.shares().getShare(stringArg(invocation, "shareId"))), false),
                 tool("nextcloud.shares.create", "Create a share.", false, Set.of(SHARES_WRITE),
                         params(requiredString("path", "Path to share."),
                                 optionalString("shareType", "Share type: public_link, user, group, email, remote, or circle."),
@@ -51,9 +52,19 @@ public final class NextcloudShareTools {
                                 optionalString("note", "Optional recipient note."),
                                 optionalString("label", "Optional share label.")),
                         invocation -> share(nextcloud.shares().createShare(createRequest(invocation))), false),
-                deferred("nextcloud.shares.update", "Update an existing share.", false, Set.of(SHARES_WRITE),
-                        params(requiredString("shareId", "Share id to update.")),
-                        "NextcloudSharesClient does not expose update-share yet."),
+                tool("nextcloud.shares.update", "Update an existing share.", false, Set.of(SHARES_WRITE),
+                        params(requiredString("shareId", "Share id to update."),
+                                optionalInteger("permissions", "Optional replacement permission bit mask."),
+                                optionalString("password", "Optional replacement password."),
+                                optionalBoolean("publicUpload", "Optional public-upload flag."),
+                                optionalString("expireDate", "Optional expiration date."),
+                                optionalString("note", "Optional share note."),
+                                optionalString("label", "Optional share label."),
+                                optionalString("attributes", "Optional raw share attributes JSON."),
+                                optionalBoolean("sendMail", "Whether Nextcloud should send an update email.")),
+                        invocation -> share(nextcloud.shares().updateShare(
+                                stringArg(invocation, "shareId"),
+                                updateRequest(invocation))), false),
                 tool("nextcloud.shares.delete", "Delete a share by id.", true, Set.of(SHARES_WRITE),
                         params(requiredString("shareId", "Share id to delete.")),
                         invocation -> {
@@ -61,9 +72,13 @@ public final class NextcloudShareTools {
                             nextcloud.shares().deleteShare(shareId);
                             return ToolResult.ok(Map.of("shareId", shareId, "deleted", true));
                         }, false),
-                deferred("nextcloud.shares.send_email", "Send a share notification email.", false, Set.of(SHARES_WRITE),
+                tool("nextcloud.shares.send_email", "Send a share notification email.", false, Set.of(SHARES_WRITE),
                         params(requiredString("shareId", "Share id to notify.")),
-                        "NextcloudSharesClient does not expose send-email yet."),
+                        invocation -> {
+                            String shareId = stringArg(invocation, "shareId");
+                            nextcloud.shares().sendShareEmail(shareId);
+                            return ToolResult.ok(Map.of("shareId", shareId, "emailSent", true));
+                        }, false),
                 tool("nextcloud.sharees.search", "Search share recipients.", false, Set.of(SHARES_READ),
                         params(requiredString("query", "Sharee search query."),
                                 optionalString("itemType", "Nextcloud item type; defaults to file."),
@@ -74,9 +89,9 @@ public final class NextcloudShareTools {
                                 optionalStringArg(invocation, "itemType"),
                                 intArg(invocation, "page", 0),
                                 intArg(invocation, "perPage", 0))), false),
-                deferred("nextcloud.sharees.recommended", "List recommended share recipients.", false, Set.of(SHARES_READ),
+                tool("nextcloud.sharees.recommended", "List recommended share recipients.", false, Set.of(SHARES_READ),
                         params(optionalString("itemType", "Nextcloud item type; defaults to file.")),
-                        "NextcloudShareesClient does not expose recommended-sharees yet."));
+                        invocation -> sharees(nextcloud.sharees().recommended(optionalStringArg(invocation, "itemType"))), false));
     }
 
     private static ToolRegistration tool(
@@ -132,6 +147,18 @@ public final class NextcloudShareTools {
                 optionalStringArg(invocation, "expireDate"),
                 optionalStringArg(invocation, "note"),
                 optionalStringArg(invocation, "label"));
+    }
+
+    private static ShareUpdateRequest updateRequest(ToolInvocation invocation) {
+        return new ShareUpdateRequest(
+                optionalIntegerArg(invocation, "permissions"),
+                optionalStringArg(invocation, "password"),
+                optionalBooleanArg(invocation, "publicUpload"),
+                optionalStringArg(invocation, "expireDate"),
+                optionalStringArg(invocation, "note"),
+                optionalStringArg(invocation, "label"),
+                optionalStringArg(invocation, "attributes"),
+                optionalBooleanArg(invocation, "sendMail"));
     }
 
     private static ShareType shareType(String value) {
@@ -207,6 +234,17 @@ public final class NextcloudShareTools {
         Object value = invocation.arguments().get(name);
         if (value == null) {
             return defaultValue;
+        }
+        if (value instanceof Number number) {
+            return number.intValue();
+        }
+        throw new IllegalArgumentException(name + " must be an integer");
+    }
+
+    private static Integer optionalIntegerArg(ToolInvocation invocation, String name) {
+        Object value = invocation.arguments().get(name);
+        if (value == null) {
+            return null;
         }
         if (value instanceof Number number) {
             return number.intValue();

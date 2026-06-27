@@ -20,7 +20,8 @@ public final class ToolAccessPolicy {
         if (!principal.admin() && permission.requiredScopes().stream().anyMatch(Scope::adminScope)) {
             return false;
         }
-        if (denyDeleteByDefault && permission.destructive() && !principal.scopes().contains(Scope.FILES_DELETE)) {
+        boolean adminOperation = permission.requiredScopes().stream().anyMatch(Scope::adminScope);
+        if (denyDeleteByDefault && permission.destructive() && !adminOperation && !principal.scopes().contains(Scope.FILES_DELETE)) {
             return false;
         }
         return evaluator.allows(principal.scopes(), permission.requiredScopes());

@@ -30,6 +30,12 @@ public final class NextcloudSharesClient extends AbstractNextcloudClient {
         return sharesFrom(ocsParser.data(response, SHARES_ENDPOINT));
     }
 
+    public ShareInfo getShare(String shareId) {
+        String endpoint = shareEndpoint(shareId);
+        HttpResponseSpec response = sendExpecting(requests.getOcs(endpoint), 200);
+        return shareFrom(ocsParser.data(response, endpoint));
+    }
+
     public ShareInfo createShare(ShareCreateRequest request) {
         Map<String, String> fields = new LinkedHashMap<>();
         fields.put("path", request.path());
@@ -48,8 +54,37 @@ public final class NextcloudSharesClient extends AbstractNextcloudClient {
         return shareFrom(ocsParser.data(response, SHARES_ENDPOINT));
     }
 
+    public ShareInfo updateShare(String shareId, ShareUpdateRequest request) {
+        String endpoint = shareEndpoint(shareId);
+        Map<String, String> fields = new LinkedHashMap<>();
+        if (request.permissions() != null) {
+            fields.put("permissions", Integer.toString(request.permissions()));
+        }
+        fields.put("password", request.password());
+        if (request.publicUpload() != null) {
+            fields.put("publicUpload", request.publicUpload() ? "true" : "false");
+        }
+        fields.put("expireDate", request.expireDate());
+        fields.put("note", request.note());
+        fields.put("label", request.label());
+        fields.put("attributes", request.attributes());
+        if (request.sendMail() != null) {
+            fields.put("sendMail", request.sendMail() ? "true" : "false");
+        }
+        HttpResponseSpec response = sendExpecting(requests.putOcsForm(endpoint, fields), 200);
+        return shareFrom(ocsParser.data(response, endpoint));
+    }
+
     public void deleteShare(String shareId) {
-        sendExpecting(requests.deleteOcs(SHARES_ENDPOINT + "/" + NextcloudHttpRequestFactory.encodePathSegment(shareId)), 200, 204);
+        sendExpecting(requests.deleteOcs(shareEndpoint(shareId)), 200, 204);
+    }
+
+    public void sendShareEmail(String shareId) {
+        sendExpecting(requests.postOcs(shareEndpoint(shareId) + "/send-email"), 200);
+    }
+
+    private static String shareEndpoint(String shareId) {
+        return SHARES_ENDPOINT + "/" + NextcloudHttpRequestFactory.encodePathSegment(shareId);
     }
 
     private static List<ShareInfo> sharesFrom(JsonNode data) {

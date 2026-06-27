@@ -2,6 +2,7 @@ package org.mcp.nextcloud.server;
 
 import java.util.Map;
 
+import org.mcp.nextcloud.core.error.ConfigurationException;
 import org.mcp.nextcloud.core.error.NextcloudApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,9 @@ class NextcloudMcpExceptionHandler {
     @ExceptionHandler(ServerRequestException.class)
     ResponseEntity<Map<String, Object>> requestError(ServerRequestException ex) {
         HttpStatus status = switch (ex.code()) {
-            case "config.not_found", "account.not_found" -> HttpStatus.NOT_FOUND;
-            case "config.invalid", "account.disabled", "request.invalid" -> HttpStatus.BAD_REQUEST;
+            case "config.not_found", "account.not_found", "admin.account_not_found" -> HttpStatus.NOT_FOUND;
+            case "config.invalid", "account.disabled", "account.exists", "admin.disabled",
+                    "admin.account_disabled", "admin.account_not_marked_admin", "request.invalid" -> HttpStatus.BAD_REQUEST;
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };
         return ResponseEntity.status(status).body(Map.of(
@@ -39,5 +41,14 @@ class NextcloudMcpExceptionHandler {
                         "code", ex.code(),
                         "message", ex.getMessage(),
                         "nextcloudStatus", ex.statusCode())));
+    }
+
+    @ExceptionHandler(ConfigurationException.class)
+    ResponseEntity<Map<String, Object>> configurationError(ConfigurationException ex) {
+        return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "error", Map.of(
+                        "code", ex.code(),
+                        "message", ex.getMessage())));
     }
 }

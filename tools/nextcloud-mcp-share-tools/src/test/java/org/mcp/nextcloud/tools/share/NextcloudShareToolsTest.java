@@ -1,7 +1,6 @@
 package org.mcp.nextcloud.tools.share;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.charset.StandardCharsets;
@@ -26,7 +25,7 @@ import org.mcp.nextcloud.tool.runtime.ToolRegistration;
 
 class NextcloudShareToolsTest {
     @Test
-    void exposesSupportedAndDeferredShareDescriptors() throws Exception {
+    void exposesShareDescriptors() {
         List<ToolRegistration> registrations = NextcloudShareTools.registrations(client(new RecordingHttpClient()));
 
         assertEquals(List.of(
@@ -41,12 +40,7 @@ class NextcloudShareToolsTest {
         ToolRegistration delete = registration(registrations, "nextcloud.shares.delete");
         assertTrue(delete.descriptor().security().destructive());
         ToolRegistration get = registration(registrations, "nextcloud.shares.get");
-        assertEquals(true, get.descriptor().metadata().get("deferred"));
-
-        ToolResult result = get.handler().invoke(invocation(get, Map.of("shareId", "42")));
-
-        assertFalse(result.success());
-        assertEquals("tool.deferred", result.error().code());
+        assertEquals(false, get.descriptor().metadata().get("deferred"));
     }
 
     @Test
@@ -94,6 +88,59 @@ class NextcloudShareToolsTest {
         assertTrue(uri.contains("/ocs/v2.php/apps/files_sharing/api/v1/sharees?"));
         assertTrue(uri.contains("search=temp"));
         assertTrue(uri.contains("perPage=25"));
+    }
+
+    @Test
+    void getUpdateEmailAndRecommendedUseOcsRoutes() throws Exception {
+        RecordingHttpClient http = new RecordingHttpClient();
+        http.enqueue(json("""
+                {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK"},"data":{
+                  "id":"42",
+                  "path":"/CodexScratch/file.txt",
+                  "permissions":1
+                }}}
+                """));
+        http.enqueue(json("""
+                {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK"},"data":{
+                  "id":"42",
+                  "path":"/CodexScratch/file.txt",
+                  "permissions":31
+                }}}
+                """));
+        http.enqueue(json("""
+                {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK"},"data":[]}}
+                """));
+        http.enqueue(json("""
+                {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK"},"data":{
+                  "users":[{"label":"Recommended","value":"temporary","shareType":0}]
+                }}}
+                """));
+        List<ToolRegistration> registrations = NextcloudShareTools.registrations(client(http));
+
+        ToolResult get = registration(registrations, "nextcloud.shares.get")
+                .handler().invoke(invocation(registration(registrations, "nextcloud.shares.get"), Map.of("shareId", "42")));
+        ToolResult update = registration(registrations, "nextcloud.shares.update")
+                .handler().invoke(invocation(registration(registrations, "nextcloud.shares.update"), Map.of(
+                        "shareId", "42",
+                        "permissions", 31,
+                        "note", "Updated")));
+        ToolResult email = registration(registrations, "nextcloud.shares.send_email")
+                .handler().invoke(invocation(registration(registrations, "nextcloud.shares.send_email"), Map.of("shareId", "42")));
+        ToolResult recommended = registration(registrations, "nextcloud.sharees.recommended")
+                .handler().invoke(invocation(registration(registrations, "nextcloud.sharees.recommended"), Map.of("itemType", "file")));
+
+        assertTrue(get.success());
+        assertTrue(update.success());
+        assertTrue(email.success());
+        assertTrue(recommended.success());
+        assertEquals(HttpMethod.GET, http.requests().get(0).method());
+        assertEquals("https://cloud.example.com/ocs/v2.php/apps/files_sharing/api/v1/shares/42",
+                http.requests().get(0).uri().toString());
+        assertEquals(HttpMethod.PUT, http.requests().get(1).method());
+        assertEquals("permissions=31&note=Updated", body(http.requests().get(1)));
+        assertEquals("https://cloud.example.com/ocs/v2.php/apps/files_sharing/api/v1/shares/42/send-email",
+                http.requests().get(2).uri().toString());
+        assertTrue(http.requests().get(3).uri().toString().contains("/sharees_recommended?"));
     }
 
     private static List<String> names(List<ToolRegistration> registrations) {

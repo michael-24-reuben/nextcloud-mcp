@@ -11,10 +11,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.mcp.nextcloud.admin.NextcloudAdminClient;
+import org.mcp.nextcloud.admin.NextcloudAdminCredentials;
 import org.mcp.nextcloud.client.NextcloudClient;
 import org.mcp.nextcloud.client.NextcloudCredentials;
 import org.mcp.nextcloud.client.NextcloudUser;
 import org.mcp.nextcloud.config.ConfigPaths;
+import org.mcp.nextcloud.config.LocalUserAccountRecord;
+import org.mcp.nextcloud.config.LocalUserAccountRepository;
 import org.mcp.nextcloud.config.NextcloudAccountConfig;
 import org.mcp.nextcloud.config.NextcloudMcpConfig;
 import org.mcp.nextcloud.config.SecretResolver;
@@ -35,6 +39,7 @@ import org.mcp.nextcloud.tool.runtime.InMemoryToolRegistry;
 import org.mcp.nextcloud.tool.runtime.ToolDispatcher;
 import org.mcp.nextcloud.tool.runtime.ToolRegistration;
 import org.mcp.nextcloud.tool.runtime.ToolRuntimeContext;
+import org.mcp.nextcloud.tools.admin.NextcloudAdminTools;
 import org.mcp.nextcloud.tools.files.NextcloudFilesTools;
 import org.mcp.nextcloud.tools.share.NextcloudShareTools;
 import org.mcp.nextcloud.tools.user.NextcloudUserTools;
@@ -123,6 +128,144 @@ public class NextcloudMcpRuntimeService {
         return resultMap(result);
     }
 
+    public Map<String, Object> getAccount(String accountId) {
+        LoadedConfig loaded = loadValidatedConfig();
+        NextcloudAccountConfig account = loaded.config().accounts().get(accountId);
+        if (account == null) {
+            throw new ServerRequestException("account.not_found", "account not found: " + accountId);
+        }
+        return accountMap(accountId, accountWithId(accountId, account));
+    }
+
+    public Map<String, Object> createAccount(AccountCreateRequest request) {
+        if (request == null) {
+            throw new ServerRequestException("request.invalid", "account request is required");
+        }
+        try {
+            Path configPath = loadValidatedConfig().path();
+            LocalUserAccountRecord record = new LocalUserAccountRecord(
+                    required(request.accountId(), "accountId"),
+                    valueOr(request.nextcloudAccountId(), request.accountId()),
+                    required(request.baseUrl(), "baseUrl"),
+                    required(request.username(), "username"),
+                    required(request.appPassword(), "appPassword"),
+                    request.displayName(),
+                    request.email(),
+                    valueOr(request.defaultAccount(), false),
+                    valueOr(request.admin(), false),
+                    valueOr(request.enabled(), true),
+                    request.scopes());
+            return localAccountMap(LocalUserAccountRepository.create(configPath, record), false);
+        } catch (IllegalStateException ex) {
+            throw new ServerRequestException("account.exists", ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            throw new ServerRequestException("request.invalid", ex.getMessage());
+        } catch (IOException ex) {
+            throw new ServerRequestException("account.write_failed", "could not write account: " + ex.getMessage());
+        }
+    }
+
+    public Map<String, Object> updateAccount(String accountId, AccountPatchRequest request) {
+        if (request == null) {
+            throw new ServerRequestException("request.invalid", "account patch request is required");
+        }
+        try {
+            Path configPath = loadValidatedConfig().path();
+            LocalUserAccountRecord existing = LocalUserAccountRepository.find(configPath, accountId)
+                    .orElseThrow(() -> new ServerRequestException("account.not_found", "local account not found: " + accountId));
+            LocalUserAccountRecord updated = new LocalUserAccountRecord(
+                    existing.accountKey(),
+                    valueOr(request.nextcloudAccountId(), existing.accountId()),
+                    valueOr(request.baseUrl(), existing.baseUrl()),
+                    valueOr(request.username(), existing.username()),
+                    existing.appPassword(),
+                    valueOr(request.displayName(), existing.displayName()),
+                    valueOr(request.email(), existing.email()),
+                    valueOr(request.defaultAccount(), existing.defaultAccount()),
+                    valueOr(request.admin(), existing.admin()),
+                    valueOr(request.enabled(), existing.enabled()),
+                    request.scopes() == null ? existing.scopes() : request.scopes());
+            return localAccountMap(LocalUserAccountRepository.write(configPath, updated), false);
+        } catch (ServerRequestException ex) {
+            throw ex;
+        } catch (IllegalArgumentException ex) {
+            throw new ServerRequestException("request.invalid", ex.getMessage());
+        } catch (IOException ex) {
+            throw new ServerRequestException("account.write_failed", "could not write account: " + ex.getMessage());
+        }
+    }
+
+    public Map<String, Object> deleteAccount(String accountId) {
+        try {
+            Path configPath = loadValidatedConfig().path();
+            boolean deleted = LocalUserAccountRepository.delete(configPath, accountId);
+            if (!deleted) {
+                throw new ServerRequestException("account.not_found", "local account not found: " + accountId);
+            }
+            return Map.of("accountId", accountId, "deleted", true);
+        } catch (ServerRequestException ex) {
+            throw ex;
+        } catch (IllegalArgumentException ex) {
+            throw new ServerRequestException("request.invalid", ex.getMessage());
+        } catch (IOException ex) {
+            throw new ServerRequestException("account.write_failed", "could not delete account: " + ex.getMessage());
+        }
+    }
+
+    public Map<String, Object> setAccountAppPassword(String accountId, AppPasswordRequest request) {
+        if (request == null || request.appPassword() == null || request.appPassword().isBlank()) {
+            throw new ServerRequestException("request.invalid", "appPassword is required");
+        }
+        try {
+            Path configPath = loadValidatedConfig().path();
+            LocalUserAccountRecord existing = LocalUserAccountRepository.find(configPath, accountId)
+                    .orElseThrow(() -> new ServerRequestException("account.not_found", "local account not found: " + accountId));
+            LocalUserAccountRecord updated = new LocalUserAccountRecord(
+                    existing.accountKey(),
+                    existing.accountId(),
+                    existing.baseUrl(),
+                    existing.username(),
+                    request.appPassword(),
+                    existing.displayName(),
+                    existing.email(),
+                    existing.defaultAccount(),
+                    existing.admin(),
+                    existing.enabled(),
+                    existing.scopes());
+            return localAccountMap(LocalUserAccountRepository.write(configPath, updated), false);
+        } catch (ServerRequestException ex) {
+            throw ex;
+        } catch (IOException ex) {
+            throw new ServerRequestException("account.write_failed", "could not write account app password: " + ex.getMessage());
+        }
+    }
+
+    public Map<String, Object> setAccountEnabled(String accountId, boolean enabled) {
+        return updateAccount(accountId, new AccountPatchRequest(null, null, null, null, null, null, null, null, enabled, null));
+    }
+
+    public Map<String, Object> makeDefaultAccount(String accountId) {
+        try {
+            Path configPath = loadValidatedConfig().path();
+            return localAccountMap(LocalUserAccountRepository.makeDefault(configPath, accountId), false);
+        } catch (IllegalArgumentException ex) {
+            throw new ServerRequestException("account.not_found", ex.getMessage());
+        } catch (IOException ex) {
+            throw new ServerRequestException("account.write_failed", "could not write default account: " + ex.getMessage());
+        }
+    }
+
+    NextcloudAdminClient adminClient() {
+        LoadedConfig loaded = loadValidatedConfig();
+        NextcloudAdminCredentials adminCredentials = adminCredentials(loaded.config(), true);
+        NextcloudCredentials httpCredentials = NextcloudCredentials.of(
+                adminCredentials.accountId().value(),
+                adminCredentials.baseUrl(),
+                adminCredentials.username(),
+                adminCredentials.appPassword());
+        return new NextcloudAdminClient(httpClientFactory.create(httpCredentials), adminCredentials);
+    }
+
     private LoadedConfig loadValidatedConfig() {
         Path path = findConfigPath()
                 .orElseThrow(() -> new ServerRequestException("config.not_found", "config file not found"));
@@ -149,13 +292,13 @@ public class NextcloudMcpRuntimeService {
         AccountSelection selection = selectAccount(loaded.config(), requestedAccountId);
         NextcloudCredentials credentials = credentials(selection, resolveIdentity);
         NextcloudClient client = new NextcloudClient(httpClientFactory.create(credentials), credentials);
-        InMemoryToolRegistry registry = registry(client);
+        InMemoryToolRegistry registry = registry(loaded.config(), client, resolveIdentity);
         ToolDispatcher dispatcher = new ToolDispatcher(registry);
         NextcloudUser identity = resolveIdentity ? client.users().currentUser() : null;
         Set<Scope> scopes = selection.account().scopes().stream()
                 .map(Scope::new)
                 .collect(Collectors.toUnmodifiableSet());
-        return new ServerSession(selection.accountId(), credentials, dispatcher, identity, scopes);
+        return new ServerSession(selection.accountId(), credentials, dispatcher, identity, scopes, selection.account().admin());
     }
 
     private AccountSelection selectAccount(NextcloudMcpConfig config, String requestedAccountId) {
@@ -215,12 +358,49 @@ public class NextcloudMcpRuntimeService {
         return NextcloudCredentials.of(selection.accountId(), account.baseUrl(), account.username(), "not-used-for-tool-listing");
     }
 
-    private InMemoryToolRegistry registry(NextcloudClient client) {
+    private InMemoryToolRegistry registry(NextcloudMcpConfig config, NextcloudClient client, boolean resolveSecret) {
         InMemoryToolRegistry registry = new InMemoryToolRegistry();
         NextcloudFilesTools.registrations(client).forEach(registry::register);
         NextcloudShareTools.registrations(client).forEach(registry::register);
         NextcloudUserTools.registrations(client).forEach(registry::register);
+        if (config.admin().enabled()) {
+            NextcloudAdminCredentials adminCredentials = adminCredentials(config, resolveSecret);
+            NextcloudCredentials httpCredentials = NextcloudCredentials.of(
+                    adminCredentials.accountId().value(),
+                    adminCredentials.baseUrl(),
+                    adminCredentials.username(),
+                    adminCredentials.appPassword());
+            NextcloudAdminClient adminClient = new NextcloudAdminClient(httpClientFactory.create(httpCredentials), adminCredentials);
+            NextcloudAdminTools.registrations(adminClient).forEach(registry::register);
+        }
         return registry;
+    }
+
+    private NextcloudAdminCredentials adminCredentials(NextcloudMcpConfig config, boolean resolveSecret) {
+        if (!config.admin().enabled()) {
+            throw new ServerRequestException("admin.disabled", "Nextcloud admin API is not enabled");
+        }
+        String adminAccountId = required(config.admin().accountId(), "admin account id");
+        NextcloudAccountConfig account = config.accounts().get(adminAccountId);
+        if (account == null) {
+            throw new ServerRequestException("admin.account_not_found", "Admin account was not found: " + adminAccountId);
+        }
+        if (!account.enabled()) {
+            throw new ServerRequestException("admin.account_disabled", "Admin account is disabled: " + adminAccountId);
+        }
+        if (!account.admin()) {
+            throw new ServerRequestException("admin.account_not_marked_admin", "Configured admin account must be marked admin");
+        }
+        NextcloudAccountConfig normalized = accountWithId(adminAccountId, account);
+        if (resolveSecret) {
+            NextcloudCredentials credentials = NextcloudCredentials.fromAccount(normalized, secretResolver);
+            return NextcloudAdminCredentials.of(
+                    credentials.accountId().value(),
+                    credentials.baseUrl(),
+                    credentials.username(),
+                    credentials.appPassword());
+        }
+        return NextcloudAdminCredentials.of(adminAccountId, normalized.baseUrl(), normalized.username(), "not-used-for-tool-listing");
     }
 
     private ToolRuntimeContext runtimeContext(ServerSession session, String requestedInvocationId) {
@@ -229,7 +409,7 @@ public class NextcloudMcpRuntimeService {
                 ? session.credentials().username()
                 : identity.id();
         String displayName = identity == null ? userId : identity.displayName();
-        Principal principal = new Principal(new PrincipalId(userId), displayName, false, session.scopes());
+        Principal principal = new Principal(new PrincipalId(userId), displayName, session.admin(), session.scopes());
         String invocationId = requestedInvocationId == null || requestedInvocationId.isBlank()
                 ? "http-" + UUID.randomUUID()
                 : requestedInvocationId;
@@ -251,6 +431,25 @@ public class NextcloudMcpRuntimeService {
         values.put("admin", account.admin());
         values.put("enabled", account.enabled());
         values.put("scopes", account.scopes());
+        return Collections.unmodifiableMap(values);
+    }
+
+    private Map<String, Object> localAccountMap(LocalUserAccountRecord record, boolean includeSecret) {
+        Map<String, Object> values = new LinkedHashMap<>();
+        values.put("accountId", record.accountKey());
+        values.put("nextcloudAccountId", record.accountId());
+        values.put("baseUrl", record.baseUrl());
+        values.put("username", record.username());
+        put(values, "displayName", record.displayName());
+        put(values, "email", record.email());
+        values.put("defaultAccount", record.defaultAccount());
+        values.put("admin", record.admin());
+        values.put("enabled", record.enabled());
+        values.put("scopes", record.scopes());
+        values.put("hasAppPassword", record.appPassword() != null && !record.appPassword().isBlank());
+        if (includeSecret) {
+            put(values, "appPassword", record.appPassword());
+        }
         return Collections.unmodifiableMap(values);
     }
 
@@ -296,6 +495,27 @@ public class NextcloudMcpRuntimeService {
         return Collections.unmodifiableMap(values);
     }
 
+    private static void put(Map<String, Object> values, String name, Object value) {
+        if (value != null) {
+            values.put(name, value);
+        }
+    }
+
+    private static String required(String value, String name) {
+        if (value == null || value.isBlank()) {
+            throw new ServerRequestException("request.invalid", name + " is required");
+        }
+        return value;
+    }
+
+    private static String valueOr(String value, String fallback) {
+        return value == null ? fallback : value;
+    }
+
+    private static boolean valueOr(Boolean value, boolean fallback) {
+        return value == null ? fallback : value;
+    }
+
     private record LoadedConfig(Path path, NextcloudMcpConfig config) {
     }
 
@@ -307,6 +527,7 @@ public class NextcloudMcpRuntimeService {
             NextcloudCredentials credentials,
             ToolDispatcher dispatcher,
             NextcloudUser identity,
-            Set<Scope> scopes) {
+            Set<Scope> scopes,
+            boolean admin) {
     }
 }

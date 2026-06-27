@@ -13,6 +13,7 @@ import org.mcp.nextcloud.http.NextcloudHttpRequestFactory;
 
 public final class NextcloudShareesClient extends AbstractNextcloudClient {
     private static final String SHAREES_ENDPOINT = "/ocs/v2.php/apps/files_sharing/api/v1/sharees";
+    private static final String RECOMMENDED_ENDPOINT = "/ocs/v2.php/apps/files_sharing/api/v1/sharees_recommended";
 
     private final OcsParser ocsParser;
 
@@ -33,6 +34,13 @@ public final class NextcloudShareesClient extends AbstractNextcloudClient {
         }
         HttpResponseSpec response = sendExpecting(requests.getOcs(SHAREES_ENDPOINT, params), 200);
         return shareesFrom(ocsParser.data(response, SHAREES_ENDPOINT));
+    }
+
+    public List<Sharee> recommended(String itemType) {
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("itemType", itemType == null || itemType.isBlank() ? "file" : itemType);
+        HttpResponseSpec response = sendExpecting(requests.getOcs(RECOMMENDED_ENDPOINT, params), 200);
+        return shareesFrom(ocsParser.data(response, RECOMMENDED_ENDPOINT));
     }
 
     private static List<Sharee> shareesFrom(JsonNode data) {

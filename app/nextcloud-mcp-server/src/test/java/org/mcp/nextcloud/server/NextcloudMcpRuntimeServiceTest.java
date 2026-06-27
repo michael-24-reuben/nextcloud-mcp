@@ -57,6 +57,90 @@ class NextcloudMcpRuntimeServiceTest {
     }
 
     @Test
+    void toolsEndpointListsAdminDescriptorsWhenAdminConfigIsEnabled() throws Exception {
+        RecordingHttpClient http = new RecordingHttpClient();
+        MockMvc mvc = mockMvc(writeAdminConfig("admin", "admin"), http);
+
+        String body = mvc.perform(get("/api/v1/tools"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode root = objectMapper.readTree(body);
+        List<String> names = new ArrayList<>();
+        root.path("tools").forEach(tool -> names.add(tool.path("name").asText()));
+        assertTrue(names.contains("nextcloud.admin.users.create"));
+        assertTrue(names.contains("nextcloud.admin.groups.delete"));
+        assertTrue(names.contains("nextcloud.admin.occ.maintenance_mode"));
+        assertTrue(http.requests().isEmpty());
+    }
+
+    @Test
+    void accountCreateRoutePersistsLocalEnvRecordWithoutEchoingSecret() throws Exception {
+        RecordingHttpClient http = new RecordingHttpClient();
+        Path config = writeConfig("local", "temporary");
+        MockMvc mvc = mockMvc(config, http);
+
+        String body = mvc.perform(post("/api/v1/accounts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "accountId": "member",
+                                  "nextcloudAccountId": "member-id",
+                                  "baseUrl": "https://cloud.example.com",
+                                  "username": "member-login",
+                                  "appPassword": "member-app-password",
+                                  "displayName": "Member User",
+                                  "email": "member@example.com",
+                                  "defaultAccount": false,
+                                  "admin": false,
+                                  "enabled": true,
+                                  "scopes": ["nextcloud.files.read"]
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode root = objectMapper.readTree(body);
+        assertEquals("member", root.path("accountId").asText());
+        assertEquals("member-id", root.path("nextcloudAccountId").asText());
+        assertEquals("member-login", root.path("username").asText());
+        assertTrue(root.path("hasAppPassword").asBoolean());
+        assertFalse(root.has("appPassword"));
+
+        Path env = config.getParent().resolve("db").resolve("u").resolve("usr-member.env");
+        String envContent = Files.readString(env, StandardCharsets.UTF_8);
+        assertTrue(envContent.contains("USERNAME=member-login"));
+        assertTrue(envContent.contains("APP_PASSWORD=member-app-password"));
+    }
+
+    @Test
+    void adminUsersRouteUsesProvisioningApi() throws Exception {
+        RecordingHttpClient http = new RecordingHttpClient();
+        http.enqueue(ocsList("users", List.of("admin", "temporary")));
+        MockMvc mvc = mockMvc(writeAdminConfig("admin", "admin"), http);
+
+        String body = mvc.perform(get("/api/v1/admin/users")
+                        .queryParam("search", "temp")
+                        .queryParam("limit", "5")
+                        .queryParam("offset", "0"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode root = objectMapper.readTree(body);
+        assertEquals("admin", root.path("users").get(0).asText());
+        assertEquals(1, http.requests().size());
+        assertEquals(
+                "https://cloud.example.com/ocs/v1.php/cloud/users?search=temp&limit=5&offset=0",
+                http.requests().getFirst().uri().toString());
+    }
+
+    @Test
     void accountTestEndpointProbesCurrentUserOnly() throws Exception {
         RecordingHttpClient http = new RecordingHttpClient();
         http.enqueue(ocsUser("temporary", "Tempo"));
@@ -182,6 +266,7 @@ class NextcloudMcpRuntimeServiceTest {
                 credentials -> http);
         return MockMvcBuilders.standaloneSetup(
                         new NextcloudMcpApiController(service),
+                        new NextcloudMcpAdminController(service),
                         new McpJsonRpcController(service, objectMapper))
                 .setControllerAdvice(new NextcloudMcpExceptionHandler())
                 .build();
@@ -209,10 +294,51 @@ class NextcloudMcpRuntimeServiceTest {
         return config;
     }
 
+    private Path writeAdminConfig(String accountId, String username) throws Exception {
+        Path config = tempDir.resolve("nextcloud-mcp-admin.yml");
+        Files.writeString(config, """
+                admin:
+                  enabled: true
+                  accountId: %s
+                accounts:
+                  %s:
+                    baseUrl: https://cloud.example.com
+                    username: %s
+                    appPassword: admin-app-password
+                    defaultAccount: true
+                    admin: true
+                    enabled: true
+                    scopes:
+                      - nextcloud.files.read
+                      - nextcloud.files.write
+                      - nextcloud.files.delete
+                      - nextcloud.shares.read
+                      - nextcloud.shares.write
+                      - nextcloud.user.read
+                      - nextcloud.admin.read
+                      - nextcloud.admin.write
+                      - nextcloud.admin.delete
+                      - nextcloud.admin.apps
+                      - nextcloud.admin.occ
+                """.formatted(accountId, accountId, username), StandardCharsets.UTF_8);
+        return config;
+    }
+
     private static HttpResponseSpec ocsUser(String id, String displayName) {
         String body = """
                 {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK"},"data":{"id":"%s","display-name":"%s","enabled":true}}}
                 """.formatted(id, displayName);
+        return new HttpResponseSpec(200, Map.of("Content-Type", List.of("application/json")),
+                body.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static HttpResponseSpec ocsList(String name, List<String> values) {
+        String items = values.stream()
+                .map(value -> "\"" + value + "\"")
+                .collect(java.util.stream.Collectors.joining(","));
+        String body = """
+                {"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK"},"data":{"%s":[%s]}}}
+                """.formatted(name, items);
         return new HttpResponseSpec(200, Map.of("Content-Type", List.of("application/json")),
                 body.getBytes(StandardCharsets.UTF_8));
     }
