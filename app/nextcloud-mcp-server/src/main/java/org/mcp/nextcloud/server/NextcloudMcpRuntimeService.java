@@ -99,9 +99,9 @@ public class NextcloudMcpRuntimeService {
         ServerSession session = session(loadValidatedConfig(), requestedAccountId, true);
         NextcloudUser identity = session.identity();
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("accountId", session.configuredAccountId());
+        result.put("accountKey", session.configuredAccountId());
         result.put("baseUrl", session.credentials().baseUrl());
-        result.put("username", session.credentials().username());
+        result.put("accountName", session.credentials().username());
         result.put("connected", true);
         result.put("userId", identity.id());
         result.put("displayName", identity.displayName());
@@ -143,11 +143,11 @@ public class NextcloudMcpRuntimeService {
         }
         try {
             Path configPath = loadValidatedConfig().path();
+            String accountName = required(request.accountName(), "accountName");
             LocalUserAccountRecord record = new LocalUserAccountRecord(
-                    required(request.accountId(), "accountId"),
-                    valueOr(request.nextcloudAccountId(), request.accountId()),
+                    valueOr(request.accountKey(), accountName),
+                    accountName,
                     required(request.baseUrl(), "baseUrl"),
-                    required(request.username(), "username"),
                     required(request.appPassword(), "appPassword"),
                     request.displayName(),
                     request.email(),
@@ -175,9 +175,8 @@ public class NextcloudMcpRuntimeService {
                     .orElseThrow(() -> new ServerRequestException("account.not_found", "local account not found: " + accountId));
             LocalUserAccountRecord updated = new LocalUserAccountRecord(
                     existing.accountKey(),
-                    valueOr(request.nextcloudAccountId(), existing.accountId()),
+                    valueOr(request.accountName(), existing.accountName()),
                     valueOr(request.baseUrl(), existing.baseUrl()),
-                    valueOr(request.username(), existing.username()),
                     existing.appPassword(),
                     valueOr(request.displayName(), existing.displayName()),
                     valueOr(request.email(), existing.email()),
@@ -202,7 +201,7 @@ public class NextcloudMcpRuntimeService {
             if (!deleted) {
                 throw new ServerRequestException("account.not_found", "local account not found: " + accountId);
             }
-            return Map.of("accountId", accountId, "deleted", true);
+            return Map.of("accountKey", accountId, "deleted", true);
         } catch (ServerRequestException ex) {
             throw ex;
         } catch (IllegalArgumentException ex) {
@@ -222,9 +221,8 @@ public class NextcloudMcpRuntimeService {
                     .orElseThrow(() -> new ServerRequestException("account.not_found", "local account not found: " + accountId));
             LocalUserAccountRecord updated = new LocalUserAccountRecord(
                     existing.accountKey(),
-                    existing.accountId(),
+                    existing.accountName(),
                     existing.baseUrl(),
-                    existing.username(),
                     request.appPassword(),
                     existing.displayName(),
                     existing.email(),
@@ -241,7 +239,7 @@ public class NextcloudMcpRuntimeService {
     }
 
     public Map<String, Object> setAccountEnabled(String accountId, boolean enabled) {
-        return updateAccount(accountId, new AccountPatchRequest(null, null, null, null, null, null, null, null, enabled, null));
+        return updateAccount(accountId, new AccountPatchRequest(null, null, null, null, null, null, enabled, null));
     }
 
     public Map<String, Object> makeDefaultAccount(String accountId) {
@@ -424,9 +422,9 @@ public class NextcloudMcpRuntimeService {
 
     private Map<String, Object> accountMap(String accountId, NextcloudAccountConfig account) {
         Map<String, Object> values = new LinkedHashMap<>();
-        values.put("accountId", accountId);
+        values.put("accountKey", accountId);
         values.put("baseUrl", account.baseUrl());
-        values.put("username", account.username());
+        values.put("accountName", account.username());
         values.put("defaultAccount", account.defaultAccount());
         values.put("admin", account.admin());
         values.put("enabled", account.enabled());
@@ -436,10 +434,9 @@ public class NextcloudMcpRuntimeService {
 
     private Map<String, Object> localAccountMap(LocalUserAccountRecord record, boolean includeSecret) {
         Map<String, Object> values = new LinkedHashMap<>();
-        values.put("accountId", record.accountKey());
-        values.put("nextcloudAccountId", record.accountId());
+        values.put("accountKey", record.accountKey());
+        values.put("accountName", record.accountName());
         values.put("baseUrl", record.baseUrl());
-        values.put("username", record.username());
         put(values, "displayName", record.displayName());
         put(values, "email", record.email());
         values.put("defaultAccount", record.defaultAccount());
