@@ -51,6 +51,10 @@
             <groupId>org.mcp.nextcloud</groupId>
             <artifactId>nextcloud-mcp-user-tools</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mcp.nextcloud</groupId>
+            <artifactId>nextcloud-mcp-admin-tools</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
