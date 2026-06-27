@@ -19,6 +19,7 @@ public final class YamlConfigLoader implements ConfigLoader {
 
     @Override
     public NextcloudMcpConfig load(Path path) throws IOException {
-        return mapper.readValue(path.toFile(), NextcloudMcpConfig.class);
+        NextcloudMcpConfig config = mapper.readValue(path.toFile(), NextcloudMcpConfig.class);
+        return LocalUserAccountStore.mergeUserAccounts(config, path);
     }
 }

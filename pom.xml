@@ -52,6 +52,7 @@
         <maven.surefire.plugin.version>3.5.4</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>3.5.4</maven.failsafe.plugin.version>
         <junit.jupiter.version>6.0.0</junit.jupiter.version>
+        <spring.boot.version>4.1.0</spring.boot.version>
         <slf4j.version>2.0.17</slf4j.version>
         <jackson.version>2.19.2</jackson.version>
         <jakarta.validation.version>3.1.1</jakarta.validation.version>
@@ -67,6 +68,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.mcp.nextcloud</groupId>
                 <artifactId>nextcloud-mcp-core</artifactId>
@@ -201,30 +209,13 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
-
-    <profiles>
-        <profile>
-            <id>spring-server</id>
-            <activation>
-                <file>
-                    <exists>app/nextcloud-mcp-server/pom.xml</exists>
-                </file>
-            </activation>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-dependencies</artifactId>
-                        <version>4.1.0</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-        </profile>
-    </profiles>
 
 </project>

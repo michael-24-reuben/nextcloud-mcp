@@ -2,7 +2,6 @@ package org.mcp.nextcloud.admin;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,29 +22,33 @@ import org.mcp.nextcloud.client.NextcloudUser;
 import org.mcp.nextcloud.client.ShareInfo;
 import org.mcp.nextcloud.client.WebDavOperation;
 import org.mcp.nextcloud.client.WebDavResource;
+import org.mcp.nextcloud.config.ConfigPaths;
+import org.mcp.nextcloud.config.EnvironmentSecretResolver;
+import org.mcp.nextcloud.config.NextcloudAccountConfig;
+import org.mcp.nextcloud.config.NextcloudMcpConfig;
+import org.mcp.nextcloud.config.YamlConfigLoader;
 import org.mcp.nextcloud.core.error.NextcloudApiException;
 import org.mcp.nextcloud.http.JdkHttpClientAdapter;
 
 class NextcloudSdkFunctionalityTest {
-    private static final Path REPO_ROOT = findRepoRoot();
     private static final String ENABLED_FLAG = "NC_MCP_SDK_FUNCTIONALITY_TEST_ENABLED";
 
     @Test
-    void liveUserSdkFunctionalityFromScratchEnv() {
-        ScratchEnv env = ScratchEnv.load();
-        Assumptions.assumeTrue(env.enabled(), enableMessage());
+    void liveUserSdkFunctionalityFromConfig() {
+        LiveSettings settings = LiveSettings.load();
+        Assumptions.assumeTrue(settings.enabled(), enableMessage());
 
-        LiveAccount account = env.mainAccount()
-                .orElseGet(() -> Assumptions.abort("Main account env is incomplete."));
+        LiveAccount account = settings.mainAccount()
+                .orElseGet(() -> Assumptions.abort("Main account config is incomplete."));
         UserSdkSession session = connectUser(account);
         NextcloudClient client = session.client();
 
         NextcloudUser user = session.user();
         NextcloudCapabilities capabilities = client.users().capabilities();
-        List<WebDavResource> rootFiles = client.files().list(user, env.rootPath());
+        List<WebDavResource> rootFiles = client.files().list(user, settings.rootPath());
 
-        String uploadDir = env.value("NC_MCP_SMOKE_TEST_UPLOAD_DIR").orElse("/CodexScratch");
-        String uploadFile = env.value("NC_MCP_SMOKE_TEST_UPLOAD_FILE")
+        String uploadDir = settings.value("NC_MCP_SMOKE_TEST_UPLOAD_DIR").orElse("/CodexScratch");
+        String uploadFile = settings.value("NC_MCP_SMOKE_TEST_UPLOAD_FILE")
                 .orElse("nextcloud-sdk-functionality-%s.txt".formatted(
                         DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss").format(OffsetDateTime.now())));
         UploadTarget uploadTarget = uploadTarget(uploadDir, uploadFile);
@@ -55,7 +58,7 @@ class NextcloudSdkFunctionalityTest {
         System.out.printf("SDK user identity: id=%s displayName=%s enabled=%s%n",
                 user.id(), user.displayName(), user.enabled());
         System.out.printf("SDK capabilities version: %s%n", capabilities.versionString());
-        System.out.printf("SDK root listing: path=%s resources=%d%n", env.rootPath(), rootFiles.size());
+        System.out.printf("SDK root listing: path=%s resources=%d%n", settings.rootPath(), rootFiles.size());
 
         boolean uploaded = false;
         try {
@@ -86,13 +89,13 @@ class NextcloudSdkFunctionalityTest {
     }
 
     @Test
-    void liveAdminSdkReadOnlyFunctionalityFromScratchEnv() {
-        ScratchEnv env = ScratchEnv.load();
-        Assumptions.assumeTrue(env.enabled(), enableMessage());
-        Assumptions.assumeTrue(env.adminEnabled(), "Admin env is not enabled.");
+    void liveAdminSdkReadOnlyFunctionalityFromConfig() {
+        LiveSettings settings = LiveSettings.load();
+        Assumptions.assumeTrue(settings.enabled(), enableMessage());
+        Assumptions.assumeTrue(settings.adminEnabled(), "Admin config is not enabled.");
 
-        LiveAccount account = env.adminAccount()
-                .orElseGet(() -> Assumptions.abort("Admin account env is incomplete."));
+        LiveAccount account = settings.adminAccount()
+                .orElseGet(() -> Assumptions.abort("Admin account config is incomplete."));
         AdminSdkSession session = connectAdmin(account);
         NextcloudAdminClient admin = session.client();
 
@@ -174,19 +177,6 @@ class NextcloudSdkFunctionalityTest {
         return new UploadTarget(cleanDirectory, cleanDirectory + "/" + cleanFile);
     }
 
-    private static Path findRepoRoot() {
-        Path current = Path.of("").toAbsolutePath();
-        while (current != null) {
-            if (Files.isDirectory(current.resolve("architect"))
-                    && Files.isDirectory(current.resolve("scripts"))
-                    && Files.isRegularFile(current.resolve("AGENTS.md"))) {
-                return current;
-            }
-            current = current.getParent();
-        }
-        return Path.of("").toAbsolutePath();
-    }
-
     private record UserSdkSession(NextcloudClient client, NextcloudUser user, String login) {
     }
 
@@ -217,19 +207,23 @@ class NextcloudSdkFunctionalityTest {
         }
     }
 
-    private static final class ScratchEnv {
+    private static final class LiveSettings {
         private final Map<String, String> values;
+        private final NextcloudMcpConfig config;
+        private final EnvironmentSecretResolver secretResolver = new EnvironmentSecretResolver();
 
-        private ScratchEnv(Map<String, String> values) {
+        private LiveSettings(Map<String, String> values, NextcloudMcpConfig config) {
             this.values = values;
+            this.config = config;
         }
 
-        static ScratchEnv load() {
+        static LiveSettings load() {
             Map<String, String> values = new LinkedHashMap<>();
-            readEnvFile(REPO_ROOT.resolve(".env")).forEach(values::putIfAbsent);
-            readEnvFile(REPO_ROOT.resolve("scripts/nextcloud/WEBDAV/.env")).forEach(values::putIfAbsent);
             System.getenv().forEach(values::put);
-            return new ScratchEnv(values);
+            NextcloudMcpConfig config = ConfigPaths.findFromSystemSources(null)
+                    .map(LiveSettings::loadConfig)
+                    .orElse(null);
+            return new LiveSettings(values, config);
         }
 
         boolean enabled() {
@@ -238,7 +232,7 @@ class NextcloudSdkFunctionalityTest {
         }
 
         boolean adminEnabled() {
-            return bool("NC_MCP_ADMIN_ENABLED");
+            return config != null && config.admin().enabled();
         }
 
         String rootPath() {
@@ -246,11 +240,24 @@ class NextcloudSdkFunctionalityTest {
         }
 
         Optional<LiveAccount> mainAccount() {
-            return account("NC_MCP_MAIN");
+            if (config == null) {
+                return Optional.empty();
+            }
+            return config.accounts().entrySet().stream()
+                    .filter(entry -> entry.getValue() != null && entry.getValue().defaultAccount())
+                    .findFirst()
+                    .or(() -> config.accounts().entrySet().stream()
+                            .filter(entry -> entry.getValue() != null && entry.getValue().enabled() && !entry.getValue().admin())
+                            .findFirst())
+                    .flatMap(entry -> account(entry.getKey(), entry.getValue()));
         }
 
         Optional<LiveAccount> adminAccount() {
-            return account("NC_MCP_ADMIN");
+            if (config == null || !config.admin().enabled()) {
+                return Optional.empty();
+            }
+            return Optional.ofNullable(config.accounts().get(config.admin().accountId()))
+                    .flatMap(account -> account(config.admin().accountId(), account));
         }
 
         Optional<String> value(String key) {
@@ -258,16 +265,13 @@ class NextcloudSdkFunctionalityTest {
             return value == null || value.isBlank() ? Optional.empty() : Optional.of(value);
         }
 
-        private Optional<LiveAccount> account(String prefix) {
-            Optional<String> baseUrl = value(prefix + "_BASE_URL");
-            Optional<String> appPassword = value(prefix + "_APP_PASSWORD");
-            Optional<String> username = value(prefix + "_USERNAME")
-                    .or(() -> value(prefix + "_ACCOUNT_ID"));
-            if (baseUrl.isEmpty() || appPassword.isEmpty() || username.isEmpty()) {
+        private Optional<LiveAccount> account(String accountKey, NextcloudAccountConfig account) {
+            String accountId = firstNonBlank(account.id(), accountKey);
+            Optional<String> appPassword = resolveSecret(account.appPassword());
+            if (isBlank(account.baseUrl()) || appPassword.isEmpty() || isBlank(account.username())) {
                 return Optional.empty();
             }
-            String accountId = value(prefix + "_ACCOUNT_ID").orElse(username.get());
-            return Optional.of(new LiveAccount(accountId, baseUrl.get(), username.get(), appPassword.get()));
+            return Optional.of(new LiveAccount(accountId, account.baseUrl(), account.username(), appPassword.get()));
         }
 
         private boolean bool(String key) {
@@ -279,39 +283,32 @@ class NextcloudSdkFunctionalityTest {
                     .orElse(false);
         }
 
-        private static Map<String, String> readEnvFile(Path path) {
-            if (!Files.isRegularFile(path)) {
-                return Map.of();
+        private Optional<String> resolveSecret(String value) {
+            if (isBlank(value)) {
+                return Optional.empty();
             }
-            Map<String, String> parsed = new LinkedHashMap<>();
-            try {
-                for (String rawLine : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-                    String line = rawLine.trim();
-                    if (line.isBlank() || line.startsWith("#") || !line.contains("=")) {
-                        continue;
-                    }
-                    int separator = line.indexOf('=');
-                    String key = line.substring(0, separator).trim();
-                    String value = unquote(line.substring(separator + 1).trim());
-                    if (!key.isBlank()) {
-                        parsed.put(key, value);
-                    }
-                }
-            } catch (IOException ex) {
-                throw new IllegalStateException("Could not read scratch env file: " + path, ex);
+            String candidate = value.trim();
+            if (!candidate.startsWith("${") || !candidate.endsWith("}")) {
+                return Optional.of(candidate);
             }
-            return parsed;
+            String name = candidate.substring(2, candidate.length() - 1).trim();
+            return secretResolver.resolve(name);
         }
 
-        private static String unquote(String value) {
-            if (value.length() >= 2) {
-                char first = value.charAt(0);
-                char last = value.charAt(value.length() - 1);
-                if ((first == '"' && last == '"') || (first == '\'' && last == '\'')) {
-                    return value.substring(1, value.length() - 1);
-                }
+        private static NextcloudMcpConfig loadConfig(Path path) {
+            try {
+                return new YamlConfigLoader().load(path);
+            } catch (IOException ex) {
+                throw new IllegalStateException("Could not read Nextcloud MCP config file: " + path, ex);
             }
-            return value;
+        }
+
+        private static String firstNonBlank(String value, String fallback) {
+            return isBlank(value) ? fallback : value;
+        }
+
+        private static boolean isBlank(String value) {
+            return value == null || value.isBlank();
         }
     }
 }
