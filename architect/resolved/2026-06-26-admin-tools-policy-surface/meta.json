@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-admin-tools-policy-surface",
   "title": "Admin Tools Policy Surface",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T15:30:00-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T20:18:00-04:00",
+  "resolvedAt": "2026-06-26T20:41:50-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "updatedAt": "2026-06-26T20:41:50-04:00",
   "tags": [
     "admin",
     "tools",
@@ -30,6 +30,16 @@
       "at": "2026-06-26T15:30:00-04:00",
       "type": "CREATED",
       "note": "Created admin tools policy child architect."
+    },
+    {
+      "at": "2026-06-26T20:18:00-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Activated after admin endpoint clients were implemented and ready for MCP tool exposure."
+    },
+    {
+      "at": "2026-06-26T20:41:50-04:00",
+      "type": "RESOLVED",
+      "note": "Added admin MCP tool registrations with admin scopes, risk metadata, confirmation flags, and policy-denial tests."
     }
   ]
 }

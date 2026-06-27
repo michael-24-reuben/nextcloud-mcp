@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-nextcloud-admin-api-architecture",
   "title": "Nextcloud Admin API Architecture",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T15:30:00-04:00",
-  "activatedAt": null,
-  "resolvedAt": null,
+  "activatedAt": "2026-06-26T15:30:00-04:00",
+  "resolvedAt": "2026-06-26T20:45:00-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T15:30:00-04:00",
+  "updatedAt": "2026-06-26T20:45:00-04:00",
   "tags": [
     "admin",
     "api",
@@ -34,6 +34,16 @@
       "at": "2026-06-26T15:30:00-04:00",
       "type": "CREATED",
       "note": "Created parent admin API architecture record and linked focused child architects."
+    },
+    {
+      "at": "2026-06-26T15:30:00-04:00",
+      "type": "MOVED_TO_ACTIVE",
+      "note": "Admin API work proceeded through focused child architects."
+    },
+    {
+      "at": "2026-06-26T20:45:00-04:00",
+      "type": "RESOLVED",
+      "note": "Resolved after all admin child architects completed and handoff alignment returned the queue to MVP outbound work."
     }
   ]
 }
