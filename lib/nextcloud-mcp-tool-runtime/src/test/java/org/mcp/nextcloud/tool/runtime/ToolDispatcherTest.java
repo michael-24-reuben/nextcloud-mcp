@@ -16,10 +16,7 @@ import org.mcp.nextcloud.core.id.AccountId;
 import org.mcp.nextcloud.core.id.InvocationId;
 import org.mcp.nextcloud.core.id.PrincipalId;
 import org.mcp.nextcloud.core.id.ToolId;
-import org.mcp.nextcloud.security.AuditEvent;
-import org.mcp.nextcloud.security.Principal;
-import org.mcp.nextcloud.security.PrincipalContext;
-import org.mcp.nextcloud.security.Scope;
+import org.mcp.nextcloud.security.*;
 import org.mcp.nextcloud.tool.api.ToolDescriptor;
 import org.mcp.nextcloud.tool.api.ToolInputSchema;
 import org.mcp.nextcloud.tool.api.ToolOutputSchema;
@@ -39,7 +36,7 @@ class ToolDispatcherTest {
         List<AuditEvent> auditEvents = new ArrayList<>();
         ToolDispatcher dispatcher = new ToolDispatcher(registry, new ToolArgumentValidator(), new DefaultToolPolicyInterceptor(), auditEvents::add);
 
-        ToolResult result = dispatcher.invoke(echoId, Map.of("message", "hello"), runtimeContext(Set.of(Scope.FILES_READ)));
+        ToolResult result = dispatcher.invoke(echoId, Map.of("message", "hello"), runtimeContext(Set.of(Scopes.Files.READ)));
 
         assertTrue(result.success());
         assertEquals(List.of(echoDescriptor(echoId, false)), dispatcher.listTools());
@@ -56,7 +53,7 @@ class ToolDispatcherTest {
         }));
         ToolDispatcher dispatcher = new ToolDispatcher(registry);
 
-        ToolResult result = dispatcher.invoke(echoId, Map.of("extra", true), runtimeContext(Set.of(Scope.FILES_READ)));
+        ToolResult result = dispatcher.invoke(echoId, Map.of("extra", true), runtimeContext(Set.of(Scopes.Files.READ)));
 
         assertFalse(result.success());
         assertEquals("tool.validation_failed", result.error().code());
@@ -70,7 +67,7 @@ class ToolDispatcherTest {
         List<AuditEvent> auditEvents = new ArrayList<>();
         ToolDispatcher dispatcher = new ToolDispatcher(registry, new ToolArgumentValidator(), new DefaultToolPolicyInterceptor(), auditEvents::add);
 
-        ToolResult result = dispatcher.invoke(deleteId, Map.of("message", "delete"), runtimeContext(Set.of(Scope.FILES_READ)));
+        ToolResult result = dispatcher.invoke(deleteId, Map.of("message", "delete"), runtimeContext(Set.of(Scopes.Files.READ)));
 
         assertFalse(result.success());
         assertEquals("tool.policy_denied", result.error().code());
@@ -105,7 +102,7 @@ class ToolDispatcherTest {
                 new ToolInputSchema(List.of(
                         ToolParameter.required("message", ToolValueType.STRING, "Message to echo")), false),
                 ToolOutputSchema.object(),
-                new ToolSecurity(destructive ? Set.of(Scope.FILES_DELETE.value()) : Set.of(Scope.FILES_READ.value()), destructive),
+                new ToolSecurity(destructive ? Set.of(Scopes.Files.DELETE.value()) : Set.of(Scopes.Files.READ.value()), destructive),
                 Map.of());
     }
 

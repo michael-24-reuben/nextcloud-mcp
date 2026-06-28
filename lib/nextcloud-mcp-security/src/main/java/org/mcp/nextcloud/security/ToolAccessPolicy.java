@@ -1,5 +1,9 @@
 package org.mcp.nextcloud.security;
 
+import org.mcp.nextcloud.security.Scopes.Admin;
+
+import java.util.Set;
+
 public final class ToolAccessPolicy {
     private final ScopeEvaluator evaluator;
     private final boolean denyDeleteByDefault;
@@ -17,13 +21,25 @@ public final class ToolAccessPolicy {
         if (principal == null || permission == null) {
             return false;
         }
-        if (!principal.admin() && permission.requiredScopes().stream().anyMatch(Scope::adminScope)) {
+
+        Set<Scope> requiredScopes = evaluator.expand(permission.requiredScopes());
+
+        boolean adminOperation = requiredScopes.stream().anyMatch(Scope::adminScope);
+        if (adminOperation && !principal.admin()) {
             return false;
         }
-        boolean adminOperation = permission.requiredScopes().stream().anyMatch(Scope::adminScope);
-        if (denyDeleteByDefault && permission.destructive() && !adminOperation && !principal.scopes().contains(Scope.FILES_DELETE)) {
+
+        if (!evaluator.allows(principal.scopes(), requiredScopes)) {
             return false;
         }
-        return evaluator.allows(principal.scopes(), permission.requiredScopes());
+
+        if (denyDeleteByDefault && permission.destructive()) {
+
+            // Returns whether it has risk gate
+            return principal.scopes().contains(Scopes.Risk.DESTRUCTIVE)
+                    || principal.scopes().contains(Scopes.Risk.CRITICAL);
+        }
+
+        return true;
     }
 }

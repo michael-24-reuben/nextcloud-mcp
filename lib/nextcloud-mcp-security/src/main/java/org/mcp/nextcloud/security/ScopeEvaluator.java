@@ -8,4 +8,20 @@ public final class ScopeEvaluator {
         Set<Scope> safeRequired = required == null ? Set.of() : required;
         return safeGranted.containsAll(safeRequired);
     }
+
+    public Set<Scope> expand(Set<Scope> scopes) {
+        Set<Scope> expanded = new java.util.LinkedHashSet<>();
+
+        if (scopes == null || scopes.isEmpty()) {
+            return expanded;
+        }
+
+        for (Scope scope : scopes) {
+            expanded.add(scope);
+            expanded.addAll(scope.flattenedPrerequisites());
+        }
+
+        return java.util.Collections.unmodifiableSet(expanded);
+    }
+
 }

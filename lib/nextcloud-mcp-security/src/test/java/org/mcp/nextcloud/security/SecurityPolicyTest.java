@@ -13,23 +13,23 @@ import org.mcp.nextcloud.core.id.ToolId;
 class SecurityPolicyTest {
     @Test
     void nonAdminCannotUseAdminAccount() {
-        Principal principal = new Principal(new PrincipalId("main"), "Main", false, Set.of(Scope.FILES_READ));
+        Principal principal = new Principal(new PrincipalId("main"), "Main", false, Set.of(Scopes.Files.READ));
 
         assertFalse(new AccountAccessPolicy().canUseAccount(principal, new AccountId("admin"), true));
     }
 
     @Test
     void destructiveToolRequiresDeleteScopeWhenDenyDeleteByDefault() {
-        Principal principal = new Principal(new PrincipalId("main"), "Main", false, Set.of(Scope.FILES_READ));
-        ToolPermission permission = new ToolPermission(new ToolId("nextcloud.files.delete"), Set.of(Scope.FILES_READ), true);
+        Principal principal = new Principal(new PrincipalId("main"), "Main", false, Set.of(Scopes.Files.READ));
+        ToolPermission permission = new ToolPermission(new ToolId("nextcloud.files.delete"), Set.of(Scopes.Files.READ), true);
 
         assertFalse(new ToolAccessPolicy().canInvoke(principal, permission));
     }
 
     @Test
     void requiredScopesAllowToolInvocation() {
-        Principal principal = new Principal(new PrincipalId("main"), "Main", false, Set.of(Scope.FILES_READ, Scope.SHARES_READ));
-        ToolPermission permission = new ToolPermission(new ToolId("nextcloud.files.list"), Set.of(Scope.FILES_READ), false);
+        Principal principal = new Principal(new PrincipalId("main"), "Main", false, Set.of(Scopes.Files.READ, Scopes.Shares.READ));
+        ToolPermission permission = new ToolPermission(new ToolId("nextcloud.files.list"), Set.of(Scopes.Files.READ), false);
 
         assertTrue(new ToolAccessPolicy().canInvoke(principal, permission));
     }
