@@ -16,7 +16,8 @@ Create smaller architect entries from this parent in dependency order. Each chil
    - Keep this slice Spring-free.
 
 3. User Nextcloud client
-   - Implement Login Flow V2 support only if needed.
+   - Defer Login Flow V2 to post-MVP.
+   - Use app-password Basic Auth for MVP.
    - Implement app-password Basic Auth, current-user resolution, WebDAV files, OCS shares, sharees, user metadata, and capabilities.
    - Defer trash, versions, comments, and status unless the slice explicitly includes them.
 
@@ -32,6 +33,8 @@ Create smaller architect entries from this parent in dependency order. Each chil
 6. CLI caller
    - Add `nextcloud-mcp tools list`, `nextcloud-mcp call`, `accounts test`, and `config check`.
    - Reuse the same runtime and tool modules as the server.
+   - MVP CLI runs in-process only.
+   - Do not add remote/server-call CLI mode in MVP.
 
 7. Spring Boot server transport
    - Wire config, clients, runtime, tools, account registry, audit service, and transport controllers.
@@ -39,14 +42,15 @@ Create smaller architect entries from this parent in dependency order. Each chil
    - Keep capability logic outside Spring controllers.
 
 8. Security hardening
-   - Add or expand account isolation, scope evaluation, delete-by-default behavior, secret masking, and audit event coverage.
+   - Add or expand account isolation, Login Flow V2, scope evaluation, delete-by-default behavior, secret storage/masking, and audit event coverage.
    - Make admin capability opt-in.
 
 9. Post-MVP capability modules
-   - Add trash, versions, comments, status, tool catalog, admin client, admin tools, and admin CLI in separate child architects.
+   - Add trash, versions, comments, user status, tool catalog, and admin CLI in separate child architects.
+   - Treat admin client and admin tools as already represented by resolved admin architect entries.
 
 10. Packaging and operations
-   - Add Docker, config examples, schemas, scripts, and deployment documentation.
+   - Add Docker, config examples, schemas, scripts, installer/distribution support, and deployment documentation.
 
 ## Dependency Direction
 

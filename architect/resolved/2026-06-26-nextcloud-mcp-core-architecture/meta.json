@@ -1,12 +1,12 @@
 {
   "id": "2026-06-26-nextcloud-mcp-core-architecture",
   "title": "Nextcloud MCP Core Architecture",
-  "status": "pending",
+  "status": "resolved",
   "createdAt": "2026-06-26T03:38:35.9698151-04:00",
   "activatedAt": null,
-  "resolvedAt": null,
+  "resolvedAt": "2026-06-27T20:07:28.8595292-04:00",
   "archivedAt": null,
-  "updatedAt": "2026-06-26T12:08:50.4424717-04:00",
+  "updatedAt": "2026-06-27T20:07:28.8595292-04:00",
   "tags": [
     "architecture",
     "prd",
@@ -26,7 +26,18 @@
     "2026-06-26-mvp-files-share-user-tools",
     "2026-06-26-mvp-cli-caller",
     "2026-06-26-mvp-spring-server-transport",
-    "2026-06-26-mvp-integration-verification-docs"
+    "2026-06-26-mvp-integration-verification-docs",
+    "2026-06-26-nextcloud-admin-api-architecture",
+    "2026-06-26-admin-auth-client-foundation",
+    "2026-06-26-admin-tools-policy-surface",
+    "2026-06-27-post-mvp-security-hardening",
+    "2026-06-27-post-mvp-trash-tools",
+    "2026-06-27-post-mvp-versions-tools",
+    "2026-06-27-post-mvp-comments-tools",
+    "2026-06-27-post-mvp-user-status-tools",
+    "2026-06-27-post-mvp-tool-catalog-export",
+    "2026-06-27-post-mvp-admin-cli",
+    "2026-06-27-packaging-config-docs"
   ],
   "sourceReports": [],
   "origin": {
@@ -67,6 +78,16 @@
       "at": "2026-06-26T12:08:50.4424717-04:00",
       "type": "UPDATED",
       "note": "Resolved the fifth MVP child architect: framework-neutral MCP tool API/runtime."
+    },
+    {
+      "at": "2026-06-27T19:17:03.5471977-04:00",
+      "type": "UPDATED",
+      "note": "Created focused post-MVP child architects for security hardening, deferred capabilities, admin CLI, and packaging/config/docs; marked resolved admin client/tools as already covered."
+    },
+    {
+      "at": "2026-06-27T20:07:28.8595292-04:00",
+      "type": "RESOLVED",
+      "note": "Resolved after every parent checklist item and decision to revisit was completed and focused post-MVP child architects were created."
     }
   ]
 }

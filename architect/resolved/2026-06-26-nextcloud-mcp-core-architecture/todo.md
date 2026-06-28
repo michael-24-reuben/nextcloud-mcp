@@ -27,14 +27,18 @@
 - [x] Create CLI child architect.
 - [x] Create Spring server transport child architect.
 - [x] Create MVP integration verification/docs child architect.
-- [ ] Create post-MVP security hardening child architect if MVP policy work leaves deferred scope.
-- [ ] Create post-MVP capability child architects for trash, versions, comments, status, catalog, admin client, admin tools, and admin CLI.
-- [ ] Create packaging/config/docs child architect.
+- [x] Create post-MVP security hardening child architect.
+- [x] Create post-MVP capability child architects for trash, versions, comments, user status, tool catalog, and admin CLI.
+  - Note: admin client and admin tools are already covered by resolved admin architect entries.
+- [x] Create packaging/config/docs child architect.
 
 ## Decisions To Revisit
 
 - [x] Whether root Maven dependencies should be moved from the aggregator into app/server modules once module creation begins.
-- [ ] Whether Login Flow V2 belongs in MVP or later.
+- [x] Whether Login Flow V2 belongs in MVP or later.
+  - Decision: Later / post-MVP.
+  - Rationale: MVP uses app-password Basic Auth against a local server.
 - [x] Which XML parser abstraction should be used for WebDAV response mapping.
 - [x] Whether security is a separate early module or introduced alongside runtime and split later.
-- [ ] Whether the first CLI should call the runtime in-process only or also support remote server calls.
+- [x] Whether the first CLI should call the runtime in-process only or also support remote server calls.
+  - Decision: MVP CLI is in-process only; no server-call CLI mode.
