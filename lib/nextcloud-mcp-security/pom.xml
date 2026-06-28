@@ -33,5 +33,11 @@
             <groupId>org.mcp.nextcloud</groupId>
             <artifactId>nextcloud-mcp-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
