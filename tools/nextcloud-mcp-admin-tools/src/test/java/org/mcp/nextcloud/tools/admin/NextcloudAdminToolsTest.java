@@ -25,6 +25,7 @@ import org.mcp.nextcloud.http.HttpResponseSpec;
 import org.mcp.nextcloud.security.Principal;
 import org.mcp.nextcloud.security.PrincipalContext;
 import org.mcp.nextcloud.security.Scope;
+import org.mcp.nextcloud.security.Scopes;
 import org.mcp.nextcloud.tool.api.ToolResult;
 import org.mcp.nextcloud.tool.runtime.InMemoryToolRegistry;
 import org.mcp.nextcloud.tool.runtime.ToolDispatcher;
@@ -62,7 +63,7 @@ class NextcloudAdminToolsTest {
         ToolResult result = dispatcher.invoke(
                 new ToolId("nextcloud.admin.users.delete"),
                 Map.of("userId", "temporary"),
-                runtimeContext(false, Set.of(new Scope(NextcloudAdminTools.ADMIN_DELETE), Scope.FILES_DELETE)));
+                runtimeContext(false, Set.of(new Scope(NextcloudAdminTools.ADMIN_DELETE), Scopes.Files.DELETE)));
 
         assertFalse(result.success());
         assertEquals("tool.policy_denied", result.error().code());
@@ -99,7 +100,7 @@ class NextcloudAdminToolsTest {
         ToolResult result = dispatcher.invoke(
                 new ToolId("nextcloud.admin.occ.files_scan"),
                 Map.of("userId", "temporary"),
-                runtimeContext(true, Set.of(new Scope(NextcloudAdminTools.ADMIN_OCC), Scope.FILES_DELETE)));
+                runtimeContext(true, Set.of(new Scope(NextcloudAdminTools.ADMIN_OCC), Scopes.Files.DELETE)));
 
         assertTrue(result.success());
         Map<?, ?> structured = (Map<?, ?>) result.structuredContent();
