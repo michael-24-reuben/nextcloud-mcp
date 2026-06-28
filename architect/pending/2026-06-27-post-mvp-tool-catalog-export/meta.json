@@ -1,0 +1,34 @@
+{
+  "id": "2026-06-27-post-mvp-tool-catalog-export",
+  "title": "Post-MVP Tool Catalog Export",
+  "status": "pending",
+  "createdAt": "2026-06-27T19:17:03.5471977-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-27T19:17:03.5471977-04:00",
+  "tags": [
+    "post-mvp",
+    "tool-catalog",
+    "metadata",
+    "docs"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-mcp-tool-runtime",
+    "2026-06-26-mvp-spring-server-transport",
+    "2026-06-26-mvp-cli-caller"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Deferred tool catalog export split out from the broad post-MVP capability bucket."
+  },
+  "events": [
+    {
+      "at": "2026-06-27T19:17:03.5471977-04:00",
+      "type": "CREATED",
+      "note": "Created as a focused post-MVP capability child architect."
+    }
+  ]
+}

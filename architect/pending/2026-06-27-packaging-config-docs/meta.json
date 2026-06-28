@@ -1,0 +1,35 @@
+{
+  "id": "2026-06-27-packaging-config-docs",
+  "title": "Packaging Config Docs",
+  "status": "pending",
+  "createdAt": "2026-06-27T19:17:03.5471977-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-27T19:17:03.5471977-04:00",
+  "tags": [
+    "post-mvp",
+    "packaging",
+    "config",
+    "docs",
+    "docker"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-integration-verification-docs",
+    "2026-06-26-mvp-cli-caller",
+    "2026-06-26-mvp-spring-server-transport"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Deferred packaging and operations work for Docker, config schemas/examples, scripts, deployment docs, and CLI/server distribution."
+  },
+  "events": [
+    {
+      "at": "2026-06-27T19:17:03.5471977-04:00",
+      "type": "CREATED",
+      "note": "Created from the parent packaging/config/docs future child item."
+    }
+  ]
+}

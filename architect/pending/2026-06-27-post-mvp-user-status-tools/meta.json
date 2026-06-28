@@ -1,0 +1,33 @@
+{
+  "id": "2026-06-27-post-mvp-user-status-tools",
+  "title": "Post-MVP User Status Tools",
+  "status": "pending",
+  "createdAt": "2026-06-27T19:17:03.5471977-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-27T19:17:03.5471977-04:00",
+  "tags": [
+    "post-mvp",
+    "tools",
+    "user-status",
+    "ocs"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-nextcloud-user-client",
+    "2026-06-26-mvp-files-share-user-tools"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Deferred Nextcloud user status tools split out from the broad post-MVP capability bucket."
+  },
+  "events": [
+    {
+      "at": "2026-06-27T19:17:03.5471977-04:00",
+      "type": "CREATED",
+      "note": "Created as a focused post-MVP capability child architect."
+    }
+  ]
+}

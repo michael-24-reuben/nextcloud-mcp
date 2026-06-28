@@ -1,0 +1,34 @@
+{
+  "id": "2026-06-27-post-mvp-security-hardening",
+  "title": "Post-MVP Security Hardening",
+  "status": "pending",
+  "createdAt": "2026-06-27T19:17:03.5471977-04:00",
+  "activatedAt": null,
+  "resolvedAt": null,
+  "archivedAt": null,
+  "updatedAt": "2026-06-27T19:17:03.5471977-04:00",
+  "tags": [
+    "post-mvp",
+    "security",
+    "auth",
+    "policy",
+    "audit"
+  ],
+  "related": [
+    "2026-06-26-nextcloud-mcp-core-architecture",
+    "2026-06-26-mvp-security-policy-baseline",
+    "2026-06-26-admin-tools-policy-surface"
+  ],
+  "sourceReports": [],
+  "origin": {
+    "source": "parent-architect",
+    "summary": "Deferred post-MVP security work after the MVP baseline established scopes, destructive-action handling, admin exclusion, masking, and audit event shape."
+  },
+  "events": [
+    {
+      "at": "2026-06-27T19:17:03.5471977-04:00",
+      "type": "CREATED",
+      "note": "Created from the parent Future Child Architects list after MVP completion."
+    }
+  ]
+}
